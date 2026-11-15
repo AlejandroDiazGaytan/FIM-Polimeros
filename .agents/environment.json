@@ -1,0 +1,3 @@
+{
+  "install": "sed -i '/case \\$- in/,/esac/d' ~/.bashrc 2>/dev/null || true; [ -d /home/antigravity/.venv ] || uv venv /home/antigravity/.venv; uv pip install --python /home/antigravity/.venv python-pptx edge-tts matplotlib; grep -qxF 'source /home/antigravity/.venv/bin/activate' ~/.bashrc || echo 'source /home/antigravity/.venv/bin/activate' >> ~/.bashrc"
+}
