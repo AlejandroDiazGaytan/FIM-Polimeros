@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FIM-Polímeros — Universidad de Guanajuato</title>
+  
+  <!-- Tipografía Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- KaTeX para renderizado de fórmulas matemáticas LaTeX (con fallback semántico y auto-render) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="if(window.triggerMathRendering) window.triggerMathRendering();"></script>
+
+  <style>
+    /* ==========================================================================
+       PALETA OFICIAL UNIVERSIDAD DE GUANAJUATO (AZUL MARINO Y DORADO)
+       ========================================================================== */
+    :root {
+      --ug-navy-dark: #030a16;
+      --ug-navy: #002147;
+      --ug-navy-surface: #07172d;
+      --ug-navy-card: rgba(6, 26, 56, 0.88);
+      --ug-navy-hover: rgba(12, 42, 86, 0.95);
+      --ug-gold: #cda851;
+      --ug-gold-light: #e5c36d;
+      --ug-gold-glow: rgba(205, 168, 81, 0.4);
+      --ug-gold-dim: rgba(205, 168, 81, 0.2);
+      --ug-border-gold: rgba(205, 168, 81, 0.45);
+      --ug-border-subtle: rgba(205, 168, 81, 0.2);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-gold: #fef08a;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --tree-line: #cda851;
+      --tree-line-dashed: #38bdf8;
+      --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--ug-navy-dark);
+      font-family: var(--font-body);
+      color: var(--text-main);
+    }
+
+    /* Fondo milimétrico académico en tonos azul marino profundo */
+    .blueprint-bg {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(7, 23, 45, 0.6) 0%, rgba(3, 10, 22, 0.98) 100%),
+        linear-gradient(to right, rgba(205, 168, 81, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(205, 168, 81, 0.05) 1px, transparent 1px);
+      background-size: 100% 100%, 50px 50px, 50px 50px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ==========================================================================
+       BARRA SUPERIOR (HEADER OFICIAL UNIVERSIDAD DE GUANAJUATO)
+       ========================================================================== */
+    header.top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      padding: 0 28px;
+      background: rgba(3, 15, 34, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 2px solid var(--ug-gold);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px var(--ug-gold-glow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand img.logo {
+      height: 48px;
+      width: auto;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    }
+
+    .brand-text h1 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ug-gold);
+      margin-bottom: 3px;
+    }
+
+    .brand-text p {
+      font-size: 12.5px;
+      color: #cbd5e1;
+      font-weight: 400;
+    }
+
+    .brand-text p span.gold-highlight {
+      color: var(--ug-gold-light);
+      font-weight: 600;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: rgba(205, 168, 81, 0.12);
+      border: 1px solid var(--ug-gold);
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ug-gold-light);
+    }
+
+    .btn-action {
+      background: var(--ug-navy);
+      border: 1px solid var(--ug-border-gold);
+      color: var(--text-main);
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-action:hover {
+      background: var(--ug-navy-hover);
+      border-color: var(--ug-gold);
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--ug-gold-glow);
+    }
+
+    .btn-action.btn-primary {
+      background: linear-gradient(135deg, var(--ug-gold), #9b7829);
+      border: none;
+      color: #020914;
+      font-weight: 700;
+      box-shadow: 0 4px 14px var(--ug-gold-glow);
+    }
+
+    .btn-action.btn-primary:hover {
+      background: linear-gradient(135deg, #f3d483, var(--ug-gold));
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px var(--ug-gold-glow);
+    }
+
+    /* ==========================================================================
+       VIEWPORT Y CANVAS DEL PREZI
+       ========================================================================== */
+    #viewport {
+      position: absolute;
+      inset: 0;
+      cursor: grab;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    #viewport.dragging {
+      cursor: grabbing;
+    }
+
+    #stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5600px;
+      height: 3600px;
+      transform-origin: 0 0;
+      transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
+    #stage.no-transition {
+      transition: none !important;
+    }
+
+    /* Líneas SVG del árbol */
+    svg.tree-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .tree-branch {
+      stroke: var(--tree-line);
+      stroke-width: 3.5px;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 6px var(--ug-gold-glow));
+    }
+
+    .tree-branch-dashed {
+      stroke: var(--tree-line-dashed);
+      stroke-width: 2.5px;
+      stroke-dasharray: 6 6;
+      fill: none;
+      filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.4));
+    }
+
+    .tree-satellite-branch {
+      stroke: rgba(205, 168, 81, 0.4);
+      stroke-width: 2px;
+      stroke-dasharray: 4 4;
+      fill: none;
+    }
+
+    /* ==========================================================================
+       NODOS DEL ÁRBOL (TARJETAS PREZI - AZUL MARINO Y DORADO)
+       ========================================================================== */
+    .node-card {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      background: var(--ug-navy-card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid var(--ug-border-subtle);
+      border-radius: 16px;
+      padding: 18px 22px;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .node-card:hover {
+      border-color: var(--ug-gold);
+      background: var(--ug-navy-hover);
+      transform: translate(-50%, -50%) scale(1.04);
+      box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.8), 0 0 25px var(--ug-gold-glow);
+      z-index: 30;
+    }
+
+    .node-card.active-tour {
+      border-color: var(--ug-gold-light);
+      box-shadow: 0 0 35px var(--ug-gold-glow), inset 0 0 15px rgba(205, 168, 81, 0.25);
+      transform: translate(-50%, -50%) scale(1.07);
+      z-index: 40;
+    }
+
+    .node-card .node-tag {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ug-gold);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .node-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .node-card p.node-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      pointer-events: none;
+    }
+
+    .node-card .node-formula {
+      margin-top: 10px;
+      padding: 7px 12px;
+      background: rgba(3, 10, 22, 0.85);
+      border-radius: 8px;
+      border: 1px solid rgba(205, 168, 81, 0.4);
+      font-size: 13.5px;
+      color: #fef08a;
+      text-align: center;
+      font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', Georgia, serif; font-style: normal;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+      line-height: 1.6;
+    }
+    .node-formula sub,
+    .node-desc sub,
+    .semantic-math-box sub {
+      font-size: 0.75em !important;
+      line-height: 0 !important;
+      position: relative !important;
+      bottom: -0.28em !important;
+      vertical-align: baseline !important;
+      font-style: italic;
+      color: inherit;
+    }
+    .node-formula sup,
+    .node-desc sup,
+    .semantic-math-box sup {
+      font-size: 0.75em !important;
+      line-height: 0 !important;
+      position: relative !important;
+      top: -0.42em !important;
+      vertical-align: baseline !important;
+      color: inherit;
+    }
+
+    /* Clases de Renderizado Matemático Semántico de Alta Fidelidad */
+    .math-sym {
+      font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', Georgia, serif; font-style: normal;
+      color: #fef08a;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .math-frac {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      padding: 0 4px;
+      line-height: 1.05;
+      font-size: 0.9em;
+    }
+    .math-frac .num {
+      border-bottom: 1.5px solid #cda851;
+      padding-bottom: 2px;
+    }
+    .math-frac .den {
+      padding-top: 2px;
+    }
+    .math-overline {
+      text-decoration: overline;
+      text-decoration-thickness: 1.5px;
+    }
+    .math-arrow {
+      color: var(--ug-gold);
+      font-weight: 700;
+      margin: 0 4px;
+    }
+    .math-cond {
+      font-size: 0.88em;
+      color: #cbd5e1;
+    }
+    .semantic-math-box {
+      font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', Georgia, serif; font-style: normal;
+      font-size: 16px;
+      color: #fef08a;
+      text-align: center;
+      padding: 10px 14px;
+      background: rgba(3, 10, 22, 0.9);
+      border-radius: 8px;
+      border: 1px solid var(--ug-gold);
+      line-height: 1.6;
+    }
+
+    /* Estilos específicos según jerarquía */
+    /* 1. Nodo Raíz */
+    .node-root {
+      width: 480px;
+      padding: 26px 32px;
+      background: linear-gradient(135deg, rgba(7, 23, 45, 0.98), rgba(0, 33, 71, 0.98));
+      border: 2.5px solid var(--ug-gold);
+      box-shadow: 0 0 45px var(--ug-gold-glow);
+    }
+    .node-root h3 {
+      font-size: 24px;
+      color: #fff;
+    }
+
+    /* 2. Cuatro Pilares Principales */
+    .node-pillar {
+      width: 360px;
+      border-top: 4px solid var(--ug-gold);
+    }
+    .node-pillar h3 {
+      font-size: 18px;
+      color: var(--ug-gold-light);
+    }
+
+    /* 3. Sub-nodos conceptuales */
+    .node-sub {
+      width: 300px;
+      padding: 16px 20px;
+      border-top: 3px solid rgba(205, 168, 81, 0.6);
+    }
+    .node-sub h3 {
+      font-size: 14.5px;
+    }
+
+    /* 4. Tarjetas Visuales con Imágenes y Gráficas de los Libros */
+    .node-visual {
+      background: rgba(4, 20, 46, 0.95);
+      border: 1.5px solid var(--ug-border-gold);
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+    .node-visual:hover {
+      border-color: var(--ug-gold-light);
+      transform: translate(-50%, -50%) scale(1.04);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 25px var(--ug-gold-glow);
+    }
+    .node-visual img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 4px;
+      object-fit: contain;
+    }
+    .node-visual .visual-caption {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ug-gold-light);
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    /* 5. Nodos de Isómeros */
+    .node-isomer {
+      width: 210px;
+      padding: 12px 16px;
+      border-left: 3px solid var(--accent-cyan);
+    }
+
+    /* 6. Nodos Satélites de Ingeniería */
+    .node-satellite {
+      width: 380px;
+      background: linear-gradient(135deg, rgba(7, 23, 45, 0.95), rgba(4, 15, 33, 0.95));
+      border: 1.5px dashed var(--ug-gold);
+    }
+
+    /* ==========================================================================
+       DRAWER / PANEL LATERAL DE DETALLES (INSPECTOR ACADÉMICO)
+       ========================================================================== */
+    aside.detail-drawer {
+      position: fixed;
+      top: 68px;
+      right: 0;
+      bottom: 78px;
+      width: 540px;
+      max-width: 90vw;
+      background: rgba(3, 14, 32, 0.96);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-left: 1.5px solid var(--ug-gold);
+      z-index: 90;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -10px 0 45px rgba(0, 0, 0, 0.8);
+    }
+
+    aside.detail-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--ug-border-subtle);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .drawer-title-area .drawer-cat {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ug-gold);
+      margin-bottom: 4px;
+    }
+
+    .drawer-title-area h2 {
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .btn-close-drawer {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 22px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .btn-close-drawer:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .drawer-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .drawer-content::-webkit-scrollbar {
+      width: 6px;
+    }
+    .drawer-content::-webkit-scrollbar-thumb {
+      background: var(--ug-gold);
+      border-radius: 3px;
+    }
+
+    /* Imagen Recorte del Libro dentro del Drawer */
+    .book-clip-container {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 12px;
+      border: 1px solid var(--ug-border-gold);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .book-clip-container img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+    .book-clip-container img:hover {
+      transform: scale(1.02);
+    }
+
+    .book-clip-caption {
+      font-size: 11.5px;
+      color: #1e293b;
+      text-align: center;
+      font-weight: 600;
+      padding: 0 8px;
+    }
+
+    /* Tarjeta de Fórmula Matemática */
+    .formula-showcase {
+      background: rgba(7, 23, 45, 0.85);
+      border: 1px solid var(--ug-border-gold);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      color: var(--text-gold);
+      font-size: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    /* Texto de Desarrollo Teórico */
+    .speech-transcript {
+      background: rgba(6, 26, 56, 0.6);
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid var(--ug-border-subtle);
+    }
+    .speech-transcript h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ug-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+    .speech-transcript p {
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #e2e8f0;
+      margin-bottom: 12px;
+    }
+    .speech-transcript p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ==========================================================================
+       BARRA INFERIOR DE NAVEGACIÓN PREZI (TOUR CONTROLLER)
+       ========================================================================== */
+    footer.tour-controller {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 78px;
+      background: rgba(3, 15, 34, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1.5px solid var(--ug-gold);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      z-index: 100;
+    }
+
+    .tour-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .tour-step-counter {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ug-gold);
+      text-transform: uppercase;
+    }
+
+    .tour-current-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .tour-nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn-tour-nav {
+      background: var(--ug-navy);
+      border: 1px solid var(--ug-border-gold);
+      color: var(--text-main);
+      height: 42px;
+      padding: 0 20px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-tour-nav:hover:not(:disabled) {
+      background: var(--ug-navy-hover);
+      border-color: var(--ug-gold);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--ug-gold-glow);
+    }
+
+    .btn-tour-nav:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .btn-tour-nav.primary {
+      background: linear-gradient(135deg, var(--ug-gold), #9b7829);
+      color: #020914;
+      border: none;
+      box-shadow: 0 4px 15px var(--ug-gold-glow);
+    }
+    .btn-tour-nav.primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #f3d483, var(--ug-gold));
+    }
+
+    /* Barra de progreso global del Tour */
+    .tour-global-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .tour-global-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, var(--ug-gold), #fef08a, var(--accent-cyan));
+      transition: width 0.4s ease;
+    }
+
+    /* Controles de Zoom en Pantalla */
+    .map-controls {
+      position: fixed;
+      bottom: 94px;
+      left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 50;
+    }
+
+    .btn-zoom {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: rgba(3, 15, 34, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--ug-border-gold);
+      color: var(--ug-gold-light);
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-zoom:hover {
+      background: var(--ug-navy-hover);
+      border-color: var(--ug-gold);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    /* Modal Lightbox para imágenes */
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 14, 0.92);
+      backdrop-filter: blur(14px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    .lightbox-modal.open {
+      display: flex;
+    }
+    .lightbox-modal img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 0 50px rgba(0,0,0,0.9);
+      border: 1.5px solid var(--ug-gold);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      font-size: 34px;
+      color: var(--ug-gold-light);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fondo Blueprint -->
+  <div class="blueprint-bg"></div>
+
+  <!-- Barra Superior Oficial UG -->
+  <header class="top-bar">
+    <div class="brand">
+      <img src="logo_portada.png" alt="Universidad de Guanajuato" class="logo" onerror="this.style.display='none'">
+      <div class="brand-text">
+        <h1>Universidad de Guanajuato · Maestría en Ciencias Aplicadas</h1>
+        <p>Materia: <span class="gold-highlight">Fundamentos de Ingeniería de Polímeros</span> | Docente: Dr. Julio César Armas Pérez | Alumno: Miguel Alejandro Díaz Gaytán</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="btn-action" id="btnFitOverview">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        Vista Panorámica
+      </button>
+      <button class="btn-action btn-primary" id="btnStartTour">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Iniciar Presentación
+      </button>
+    </div>
+  </header>
+
+  <!-- Viewport Infinito de Navegación -->
+  <div id="viewport">
+    <div id="stage">
+      
+      <!-- Lienzo SVG con las ramas del árbol (ESPACIADO AMPLIO SIN EMPALMES) -->
+      <svg class="tree-svg" id="treeSvg">
+        <!-- Raíz (X=2700, Y=240) -> Barra horizontal superior (Y=380) -->
+        <path class="tree-branch" d="M 2700 305 L 2700 380"/>
+        <path class="tree-branch" d="M 750 380 L 4650 380"/>
+        
+        <!-- Tronco a los 4 Pilares -->
+        <path class="tree-branch" d="M 750 380 L 750 520"/>
+        <path class="tree-branch" d="M 2050 380 L 2050 520"/>
+        <path class="tree-branch" d="M 3350 380 L 3350 520"/>
+        <path class="tree-branch" d="M 4650 380 L 4650 520"/>
+
+        <!-- ==================== PILAR 1: QUÍMICA (X=750) ==================== -->
+        <path class="tree-branch" d="M 750 580 L 750 660"/>
+        <path class="tree-branch" d="M 320 660 L 1180 660"/>
+        <path class="tree-branch" d="M 320 660 L 320 780"/>
+        <path class="tree-branch" d="M 750 660 L 750 780"/>
+        <path class="tree-branch" d="M 1180 660 L 1180 780"/>
+
+        <!-- Conexiones a tarjetas visuales de Química -->
+        <path class="tree-branch" d="M 320 860 L 320 1140"/>
+        <path class="tree-branch" d="M 750 860 L 750 1130"/>
+        <path class="tree-branch" d="M 750 1330 L 750 1450"/>
+        <path class="tree-branch" d="M 1180 860 L 1180 1140"/>
+
+        <!-- ==================== PILAR 2: TAMAÑO / PESO MOLECULAR (X=2050) ==================== -->
+        <path class="tree-branch" d="M 2050 580 L 2050 660"/>
+        <path class="tree-branch" d="M 1620 660 L 2480 660"/>
+        <path class="tree-branch" d="M 1620 660 L 1620 780"/>
+        <path class="tree-branch" d="M 2050 660 L 2050 780"/>
+        <path class="tree-branch" d="M 2480 660 L 2480 780"/>
+
+        <!-- Conexiones a tarjetas visuales de Tamaño -->
+        <path class="tree-branch" d="M 2050 860 L 2050 960"/>
+        <path class="tree-branch" d="M 1880 960 L 2220 960"/>
+        <path class="tree-branch" d="M 1880 960 L 1880 1130"/>
+        <path class="tree-branch" d="M 2220 960 L 2220 1130"/>
+
+        <!-- ==================== PILAR 3: FORMA MOLECULAR (X=3350) ==================== -->
+        <path class="tree-branch" d="M 3350 580 L 3350 660"/>
+        <path class="tree-branch" d="M 2950 660 L 3750 660"/>
+        <path class="tree-branch" d="M 2950 660 L 2950 780"/>
+        <path class="tree-branch" d="M 3350 660 L 3350 780"/>
+        <path class="tree-branch" d="M 3750 660 L 3750 780"/>
+
+        <!-- Conexión a tarjeta visual de Forma -->
+        <path class="tree-branch" d="M 3350 860 L 3350 1130"/>
+
+        <!-- ==================== PILAR 4: ESTRUCTURA (X=4650) ==================== -->
+        <path class="tree-branch" d="M 4650 580 L 4650 660"/>
+        <path class="tree-branch" d="M 4170 660 L 5130 660"/>
+        <path class="tree-branch" d="M 4170 660 L 4170 780"/>
+        <path class="tree-branch" d="M 4490 660 L 4490 780"/>
+        <path class="tree-branch" d="M 4810 660 L 4810 780"/>
+        <path class="tree-branch" d="M 5130 660 L 5130 780"/>
+
+        <!-- Conexión a tarjeta visual de Estructuras (Pág. 111) -->
+        <path class="tree-branch" d="M 4650 840 L 4650 1120"/>
+
+        <!-- ==================== LÍNEAS PUNTEADAS HACIA ISÓMEROS ==================== -->
+        <path class="tree-branch-dashed" d="M 4170 840 L 4170 1350 L 4650 1350"/>
+        <path class="tree-branch-dashed" d="M 4490 840 L 4490 1350"/>
+        <path class="tree-branch-dashed" d="M 4810 840 L 4810 1350"/>
+        <path class="tree-branch-dashed" d="M 5130 840 L 5130 1350 L 4650 1350"/>
+        <path class="tree-branch-dashed" d="M 4650 1350 L 4650 1480"/>
+
+        <!-- Ramas de Isomeric States -> Stereoisomers & Geometrical -->
+        <path class="tree-branch" d="M 4650 1540 L 4650 1620"/>
+        <path class="tree-branch" d="M 4350 1620 L 4950 1620"/>
+        <path class="tree-branch" d="M 4350 1620 L 4350 1720"/>
+        <path class="tree-branch" d="M 4950 1620 L 4950 1720"/>
+
+        <!-- Stereoisomers -> Isotactic, Syndiotactic, Atactic -->
+        <path class="tree-branch" d="M 4350 1780 L 4350 1840"/>
+        <path class="tree-branch" d="M 4130 1840 L 4570 1840"/>
+        <path class="tree-branch" d="M 4130 1840 L 4130 1920"/>
+        <path class="tree-branch" d="M 4350 1840 L 4350 1920"/>
+        <path class="tree-branch" d="M 4570 1840 L 4570 1920"/>
+
+        <!-- Conexión a tarjeta visual de Tacticidad -->
+        <path class="tree-branch" d="M 4350 1980 L 4350 2240"/>
+
+        <!-- Geometrical -> cis, trans -->
+        <path class="tree-branch" d="M 4950 1780 L 4950 1840"/>
+        <path class="tree-branch" d="M 4820 1840 L 5080 1840"/>
+        <path class="tree-branch" d="M 4820 1840 L 4820 1920"/>
+        <path class="tree-branch" d="M 5080 1840 L 5080 1920"/>
+
+        <!-- Conexiones a tarjetas visuales de Isómeros Geométricos y Sitios Activos -->
+        <path class="tree-branch" d="M 4820 1980 L 4820 2240"/>
+        <path class="tree-branch" d="M 5080 1980 L 5080 2160 L 5120 2160 L 5120 2240"/>
+
+        <!-- ==================== MÓDULOS DE INGENIERÍA Y TERMODINÁMICA ==================== -->
+        <!-- Módulo 1: Termodinámica Tg y Curado (X=3350, Y=1750) -->
+        <path class="tree-satellite-branch" d="M 4650 1120 L 3350 1120 L 3350 1750"/>
+        <path class="tree-branch" d="M 3350 1820 L 3350 2100"/>
+
+        <!-- Módulo 2: Solubilidad y Solventes (X=1150, Y=1750) -->
+        <path class="tree-satellite-branch" d="M 1180 1260 L 1150 1260 L 1150 1750"/>
+        <path class="tree-branch" d="M 1150 1820 L 1150 2100"/>
+
+        <!-- Módulo 3: Reología y Procesamiento (X=2250, Y=1750) -->
+        <path class="tree-satellite-branch" d="M 2050 860 L 2250 860 L 2250 1750"/>
+        <path class="tree-branch" d="M 2250 1820 L 2250 2100"/>
+
+        <!-- Módulo 4: Cuadro Maestro Comparativo (X=2250, Y=2650) -->
+        <path class="tree-satellite-branch" d="M 2250 2250 L 2250 2650"/>
+        <path class="tree-branch" d="M 2250 2730 L 2250 2950"/>
+      </svg>
+
+      <!-- ====================================================================
+           NODOS HTML (AMPLIAMENTE ESPACIADOS - SIN EMPALMES)
+           ==================================================================== -->
+      
+      <!-- NODO RAÍZ -->
+      <div class="node-card node-root" id="node_root" style="left: 2700px; top: 240px;" data-stop="1">
+        <div class="node-tag">
+          <span>Clasificación Fundamental de Macromoléculas</span>
+          <span>Nodo Central</span>
+        </div>
+        <h3>Características Moleculares</h3>
+        <p class="node-desc">Esquema rector que vincula la Química, el Tamaño molecular, la Forma y la Estructura con las propiedades mecánicas y térmicas bajo servicio industrial.</p>
+        <div class="node-formula">Química + Tamaño + Forma + Estructura <span class="math-arrow">⟶</span> Función Ingenieril</div>
+      </div>
+
+      <!-- ====================================================================
+           PILAR 1: COMPOSICIÓN QUÍMICA Y REACTIVIDAD (X=750)
+           ==================================================================== -->
+      <div class="node-card node-pillar" id="node_chem" style="left: 750px; top: 520px;" data-stop="2">
+        <div class="node-tag">Eje Químico</div>
+        <h3>Composición Química y Monómeros</h3>
+        <p class="node-desc">Naturaleza de la unidad repetitiva (mero), grupos funcionales reactivos, densidad de energía cohesiva y mecanismos de polimerización.</p>
+      </div>
+
+      <!-- 1A: Grupos Funcionales -->
+      <div class="node-card node-sub" id="node_func_groups" style="left: 320px; top: 780px;" data-stop="2">
+        <div class="node-tag">Grupos Funcionales</div>
+        <h3>Reactividad y Cohesión</h3>
+        <p class="node-desc">Alquenos vinílicos (<span class="math-sym">C=C</span>), ésteres, amidas con puentes de hidrógeno (<span class="math-sym">E<sub>coh</sub> &gt; 30 kJ/mol</span>) y anillos aromáticos que elevan la rigidez.</p>
+      </div>
+
+      <!-- 1A Visual: Tabla de Grupos Funcionales -->
+      <div class="node-card node-visual" style="left: 320px; top: 1140px; width: 330px;" data-stop="2">
+        <img src="recortes_libros/callister_tabla_4_2_grupos.png" alt="Tabla de Grupos Funcionales">
+        <div class="visual-caption">Tabla de Grupos Funcionales Orgánicos: alcoholes, ésteres, amidas y fenilenos.</div>
+      </div>
+
+      <!-- 1B: Mecanismos de Síntesis y Sitios Activos -->
+      <div class="node-card node-sub" id="node_synthesis" style="left: 750px; top: 780px;" data-stop="3">
+        <div class="node-tag">Cinética y Reactores</div>
+        <h3>Síntesis y Sitios Activos</h3>
+        <p class="node-desc">Polimerización por adición con centros y sitios activos radicalarios vs. Policondensación por pasos con remoción de agua.</p>
+        <div class="node-formula"><span class="math-overline">DP</span><sub>n</sub> = <span class="math-frac"><span class="num">1</span><span class="den">1 − p</span></span> &emsp; <span class="math-cond">(p ≥ 0.99 para <span class="math-overline">DP</span><sub>n</sub> ≥ 100)</span></div>
+      </div>
+
+      <!-- 1B Visual 1: Sitio Activo Radicalario -->
+      <div class="node-card node-visual" style="left: 750px; top: 1130px; width: 330px;" data-stop="3">
+        <img src="recortes_libros/callister_sitio_activo_radical.png" alt="Sitio Activo en Polimerización">
+        <div class="visual-caption">Mecanismo de Propagación: El sitio activo (electrón desapareado •) se transfiere en cada adición monomérica.</div>
+      </div>
+
+      <!-- 1B Visual 2: Policondensación de PET -->
+      <div class="node-card node-visual" style="left: 750px; top: 1450px; width: 330px;" data-stop="3">
+        <img src="recortes_libros/askeland_fig_16_6_condensacion_pet.png" alt="Síntesis de PET">
+        <div class="visual-caption">Reacción por Condensación de PET: Formación de enlaces éster y evacuación al vacío de agua.</div>
+      </div>
+
+      <!-- 1C: Aditivos Industriales -->
+      <div class="node-card node-sub" id="node_additives" style="left: 1180px; top: 780px;" data-stop="4">
+        <div class="node-tag">Tecnología de Formulación</div>
+        <h3>Aditivos Industriales</h3>
+        <p class="node-desc">Plastificantes (separación de cadenas y descenso de <span class="math-sym">T<sub>g</sub></span>), cargas minerales (<span class="math-sym">CaCO<sub>3</sub></span>, talco), antioxidantes térmicos y estabilizadores UV (HALS).</p>
+      </div>
+
+      <!-- 1C Visual: Guía de Aditivos Industriales -->
+      <div class="node-card node-visual" style="left: 1180px; top: 1140px; width: 330px;" data-stop="4">
+        <img src="recortes_libros/callister_sec_14_12_aditivos.png" alt="Clasificación de Aditivos">
+        <div class="visual-caption">Paquetes de Aditivos: Plastificantes, cargas de refuerzo, estabilizantes térmicos y retardantes.</div>
+      </div>
+
+      <!-- ====================================================================
+           PILAR 2: TAMAÑO Y PESO MOLECULAR (X=2050)
+           ==================================================================== -->
+      <div class="node-card node-pillar" id="node_size" style="left: 2050px; top: 520px;" data-stop="5">
+        <div class="node-tag">Eje Molecular</div>
+        <h3>Tamaño y Peso Molecular</h3>
+        <p class="node-desc">Masa molecular promedio, longitud de cadena, Grado de Polimerización y distribución polidispersa.</p>
+      </div>
+
+      <!-- 2A: Grado de Polimerización -->
+      <div class="node-card node-sub" id="node_dp" style="left: 1620px; top: 780px;" data-stop="5">
+        <div class="node-tag">Formulación Analítica</div>
+        <h3>Grado de Polimerización (DP)</h3>
+        <p class="node-desc">Número medio de meros eslabonados. Copolímeros: <span class="math-sym">m<sub>0</sub> = Σ f<sub>j</sub> m<sub>j</sub></span>. Umbral crítico (<span class="math-sym">DP &gt; 100–200</span>) para entrelazamientos mecánicos estables.</p>
+        <div class="node-formula">DP = <span class="math-frac"><span class="num"><span class="math-overline">M</span><sub>n</sub></span><span class="den">m<sub>0</sub></span></span></div>
+      </div>
+
+      <!-- 2B: Distribuciones Moleculares y PDI -->
+      <div class="node-card node-sub" id="node_dist" style="left: 2050px; top: 780px;" data-stop="6">
+        <div class="node-tag">Polidispersidad</div>
+        <h3>Distribuciones y PDI</h3>
+        <p class="node-desc">Promedio en número (<span class="math-overline">M</span><sub>n</sub>) y promedio en peso (<span class="math-overline">M</span><sub>w</sub>). Índice de polidispersidad <span class="math-sym">PDI = <span class="math-overline">M</span><sub>w</sub> / <span class="math-overline">M</span><sub>n</sub></span> (amplitud de distribución).</p>
+      </div>
+
+      <!-- 2B Visual 1: Distribuciones Fraccionales -->
+      <div class="node-card node-visual" style="left: 1880px; top: 1130px; width: 310px;" data-stop="6">
+        <img src="recortes_libros/callister_fig_4_3_distribucion_pm.png" alt="Distribución de Peso Molecular">
+        <div class="visual-caption">Distribuciones en Base Numérica (a) y en Base Peso (b) para una población polimérica.</div>
+      </div>
+
+      <!-- 2B Visual 2: Comparativa Mn vs Mw -->
+      <div class="node-card node-visual" style="left: 2220px; top: 1130px; width: 310px;" data-stop="6">
+        <img src="recortes_libros/callister_fig_4_4_mn_mw.png" alt="Curva Mn y Mw">
+        <div class="visual-caption">Posiciones Relativas de <span class="math-overline">M</span><sub>n</sub> y <span class="math-overline">M</span><sub>w</sub>: <span class="math-overline">M</span><sub>w</sub> pondera fuertemente las cadenas más largas.</div>
+      </div>
+
+      <!-- 2C: Regímenes y Fox-Flory -->
+      <div class="node-card node-sub" id="node_regimes" style="left: 2480px; top: 780px;" data-stop="7">
+        <div class="node-tag">Ecuación de Estado</div>
+        <h3>Regímenes y Fox-Flory</h3>
+        <p class="node-desc">Bajo (&lt; 10<sup>4</sup>), Medio (10<sup>4</sup>–10<sup>5</sup>, inyección) y Ultra-alto (&gt; 10<sup>6</sup>, UHMWPE). Ecuación de Fox-Flory y ley reológica en fundido.</p>
+        <div class="node-formula">T<sub>g</sub> = T<sub>g,∞</sub> − <span class="math-frac"><span class="num">K</span><span class="den"><span class="math-overline">M</span><sub>n</sub></span></span> &emsp;&emsp; η<sub>0</sub> ∝ <span class="math-overline">M</span><sub>w</sub><sup>3.4</sup></div>
+      </div>
+
+      <!-- ====================================================================
+           PILAR 3: FORMA MOLECULAR Y CONFORMACIÓN (X=3350)
+           ==================================================================== -->
+      <div class="node-card node-pillar" id="node_shape" style="left: 3350px; top: 520px;" data-stop="8">
+        <div class="node-tag">Eje Espacial</div>
+        <h3>Forma Molecular (Conformación)</h3>
+        <p class="node-desc">Arreglos espaciales adoptados exclusivamente por rotación térmica en torno a enlaces sencillos carbono-carbono (σ) sin rotura química.</p>
+      </div>
+
+      <!-- 3A: Rotación sigma -->
+      <div class="node-card node-sub" id="node_rotation" style="left: 2950px; top: 780px;" data-stop="8">
+        <div class="node-tag">Enlaces σ C–C</div>
+        <h3>Libertad Conformacional</h3>
+        <p class="node-desc">Giro torsional en torno al ángulo tetraédrico de 109.5°. Sustituyentes voluminosos imponen barreras estéricas que elevan la <span class="math-sym">T<sub>g</sub></span>.</p>
+      </div>
+
+      <!-- 3B: Random Coil -->
+      <div class="node-card node-sub" id="node_coil" style="left: 3350px; top: 780px;" data-stop="8">
+        <div class="node-tag">Termodinámica Estadística</div>
+        <h3>Ovillamiento Aleatorio</h3>
+        <p class="node-desc">Modelo de ovillo estadístico (<em>random coil</em>). La distancia cuadrática media extremo a extremo escala con <span class="math-sym">⟨r<sup>2</sup>⟩<sup>1/2</sup> = l · √N · f(θ)</span>.</p>
+      </div>
+
+      <!-- 3B Visual: Ovillo Molecular -->
+      <div class="node-card node-visual" style="left: 3350px; top: 1130px; width: 330px;" data-stop="8">
+        <img src="recortes_libros/fig_slide07_callister_shape.png" alt="Ovillamiento de la Cadena Molecular">
+        <div class="visual-caption">Ovillamiento de Cadena Macromolecular: Distancia cuadrática media extremo a extremo r.</div>
+      </div>
+
+      <!-- 3C: Orientación Mecánica -->
+      <div class="node-card node-sub" id="node_orientation" style="left: 3750px; top: 780px;" data-stop="8">
+        <div class="node-tag">Manufactura y Estiramiento</div>
+        <h3>Orientación Uniaxial</h3>
+        <p class="node-desc">Desenredo y alineación paralela de ovillos durante el estiramiento y soplado industrial, triplicando la tenacidad tensil direccional.</p>
+      </div>
+
+      <!-- ====================================================================
+           PILAR 4: ARQUITECTURA Y TOPOLOGÍA ESTRUCTURAL (X=4650)
+           ==================================================================== -->
+      <div class="node-card node-pillar" id="node_structure" style="left: 4650px; top: 520px;" data-stop="9">
+        <div class="node-tag">Eje Topológico</div>
+        <h3>Arquitectura y Topología</h3>
+        <p class="node-desc">Las 4 arquitecturas moleculares fundamentales: lineal, ramificada, entrecruzada y en red tridimensional continua.</p>
+      </div>
+
+      <div class="node-card node-sub" id="node_linear" style="left: 4170px; top: 780px; width: 220px;" data-stop="9">
+        <div class="node-tag">Arquitectura I</div>
+        <h3>Lineal (Linear)</h3>
+        <p class="node-desc">HDPE, PVC, Nylon. Cadenas independientes unidas por Van der Waals; fusibles y reciclables.</p>
+      </div>
+
+      <div class="node-card node-sub" id="node_branched" style="left: 4490px; top: 780px; width: 220px;" data-stop="9">
+        <div class="node-tag">Arquitectura II</div>
+        <h3>Ramificado (Branched)</h3>
+        <p class="node-desc">LDPE. Ramas secundarias que reducen la densidad, el empaquetamiento y la cristalinidad.</p>
+      </div>
+
+      <div class="node-card node-sub" id="node_crosslinked" style="left: 4810px; top: 780px; width: 220px;" data-stop="9">
+        <div class="node-tag">Arquitectura III</div>
+        <h3>Entrecruzado</h3>
+        <p class="node-desc">Gomas vulcanizadas. Enlaces covalentes cruzados de azufre entre cadenas; comportamiento elastomérico.</p>
+      </div>
+
+      <div class="node-card node-sub" id="node_network" style="left: 5130px; top: 780px; width: 230px;" data-stop="9">
+        <div class="node-tag">Arquitectura IV</div>
+        <h3>En Red (Network)</h3>
+        <p class="node-desc">Resinas epoxi y baquelita. Monómeros trifuncionales en 3D; punto de gel (<span class="math-overline">M</span><sub>w</sub> ⟶ ∞) e infusibles.</p>
+      </div>
+
+      <!-- 4 Visual: Cuatro Estructuras -->
+      <div class="node-card node-visual" style="left: 4650px; top: 1120px; width: 440px;" data-stop="9">
+        <img src="recortes_libros/callister_fig_4_7_completa.png" alt="Estructuras Poliméricas">
+        <div class="visual-caption">Las Cuatro Topologías: (a) Lineal, (b) Ramificada, (c) Entrecruzada y (d) Red tridimensional continua.</div>
+      </div>
+
+      <!-- ====================================================================
+           CONVERGENCIA ESTÉRICA: ESTADOS ISOMÉRICOS (X=4650, Y=1480)
+           ==================================================================== -->
+      <div class="node-card" id="node_isomeric" style="left: 4650px; top: 1480px; width: 420px; border-color: var(--ug-gold-light);" data-stop="10">
+        <div class="node-tag">Convergencia Estérica Inmutable</div>
+        <h3>Estados Isoméricos</h3>
+        <p class="node-desc">Disposición espacial fija en la cadena que solo puede modificarse mediante la ruptura y recombinación de enlaces covalentes primarios.</p>
+      </div>
+
+      <!-- Estereoisómeros -->
+      <div class="node-card node-sub" id="node_stereo" style="left: 4350px; top: 1720px; width: 310px;" data-stop="10">
+        <div class="node-tag">Estereoisomería</div>
+        <h3>Tacticidad (Stereoisomers)</h3>
+        <p class="node-desc">Orientación de los grupos laterales R respecto al plano macromolecular principal.</p>
+      </div>
+
+      <div class="node-card node-isomer" id="node_iso" style="left: 4130px; top: 1920px;" data-stop="10">
+        <div class="node-tag">Ziegler-Natta</div>
+        <h3>Isotáctico</h3>
+        <p class="node-desc">Grupos R del mismo lado; alta cristalinidad (<span class="math-sym">T<sub>m</sub> = 165 °C</span>).</p>
+      </div>
+
+      <div class="node-card node-isomer" id="node_syndio" style="left: 4350px; top: 1920px;" data-stop="10">
+        <div class="node-tag">Alternado</div>
+        <h3>Sindiotáctico</h3>
+        <p class="node-desc">Grupos R alternados de forma estrictamente regular.</p>
+      </div>
+
+      <div class="node-card node-isomer" id="node_atactic" style="left: 4570px; top: 1920px;" data-stop="10">
+        <div class="node-tag">Radicalario</div>
+        <h3>Atáctico</h3>
+        <p class="node-desc">Grupos R caóticos; 100% amorfo, pasta gomosa sin valor mecánico.</p>
+      </div>
+
+      <!-- Visual Tacticidad -->
+      <div class="node-card node-visual" style="left: 4350px; top: 2240px; width: 330px;" data-stop="10">
+        <img src="recortes_libros/fig_slide08_callister_tacticidad.png" alt="Esquema de Tacticidad">
+        <div class="visual-caption">Tacticidad Macromolecular: Configuraciones Isotáctica, Sindiotáctica y Atáctica.</div>
+      </div>
+
+      <!-- Isómeros Geométricos -->
+      <div class="node-card node-sub" id="node_geom" style="left: 4950px; top: 1720px; width: 310px;" data-stop="11">
+        <div class="node-tag">Isomería Geométrica</div>
+        <h3>Geometrical Isomers</h3>
+        <p class="node-desc">Presencia de dobles enlaces <span class="math-sym">C=C</span> rígidos en monómeros dieno con impedimento de rotación.</p>
+      </div>
+
+      <div class="node-card node-isomer" id="node_cis" style="left: 4820px; top: 1920px; width: 200px;" data-stop="11">
+        <div class="node-tag">Caucho Natural</div>
+        <h3>cis-Poliisopreno</h3>
+        <p class="node-desc">Cadena replegada, impide cristales; elastómero elástico (<span class="math-sym">T<sub>g</sub> = −70 °C</span>).</p>
+      </div>
+
+      <div class="node-card node-isomer" id="node_trans" style="left: 5080px; top: 1920px; width: 200px;" data-stop="11">
+        <div class="node-tag">Gutapercha</div>
+        <h3>trans-Poliisopreno</h3>
+        <p class="node-desc">Cadena lineal extendida, altamente cristalina y rígida a 25 °C.</p>
+      </div>
+
+      <!-- Visual cis vs trans -->
+      <div class="node-card node-visual" style="left: 4820px; top: 2240px; width: 310px;" data-stop="11">
+        <img src="recortes_libros/fig_slide08_askeland_cistrans_diagrama.png" alt="cis vs trans">
+        <div class="visual-caption">Estructuras cis y trans del Isopreno: Contraste entre elastómero y termoplástico rígido.</div>
+      </div>
+
+      <!-- Visual Sitios Activos en Dienos -->
+      <div class="node-card node-visual" style="left: 5120px; top: 2240px; width: 320px;" data-stop="11">
+        <img src="recortes_libros/askeland_sitios_activos_dienos.png" alt="Sitios Activos en Dienos">
+        <div class="visual-caption">Sitios Activos en Dienos: La ruptura de dobles enlaces genera sitios activos terminales para reticulación.</div>
+      </div>
+
+      <!-- ====================================================================
+           MÓDULOS DE INGENIERÍA Y TERMODINÁMICA (AMPLIAMENTE ESPACIADOS)
+           ==================================================================== -->
+      
+      <!-- MÓDULO 1: TRANSICIÓN VÍTREA Y TERMOFIJOS (X=3350, Y=1750) -->
+      <div class="node-card node-satellite" id="node_tg_thermo" style="left: 3350px; top: 1750px;" data-stop="12">
+        <div class="node-tag">Transiciones Térmicas y Curado</div>
+        <h3>Termodinámica de T<sub>g</sub> y Termofijos</h3>
+        <p class="node-desc">Teoría del volumen libre (2.5% crítico en T<sub>g</sub>), congelamiento segmentario cooperativo y ausencia de T<sub>m</sub> en redes covalentes (T<sub>serv</sub> &lt; T<sub>g</sub> &lt; T<sub>d</sub>).</p>
+        <div class="node-formula">T<sub>g</sub> &lt; T<sub>serv</sub> &lt; T<sub>m</sub> &nbsp; (Termoplásticos) &emsp;vs.&emsp; T<sub>serv</sub> &lt; T<sub>g</sub> &lt; T<sub>d</sub> &nbsp; (Termofijos)</div>
+      </div>
+
+      <div class="node-card node-visual" style="left: 3350px; top: 2100px; width: 380px;" data-stop="12">
+        <img src="recortes_libros/fig_slide03_askeland_temperatura.png" alt="Módulo vs Temperatura">
+        <div class="visual-caption">Módulo de Elasticidad vs. Temperatura: Comportamiento reológico de amorfos, semicristalinos y termofijos.</div>
+      </div>
+
+      <!-- MÓDULO 2: SOLVENTES Y SOLUBILIDAD (X=1150, Y=1750) -->
+      <div class="node-card node-satellite" id="node_solubility" style="left: 1150px; top: 1750px;" data-stop="13">
+        <div class="node-tag">Termodinámica de Mezclas</div>
+        <h3>Solubilidad e Hinchamiento</h3>
+        <p class="node-desc">Energía libre <span class="math-sym">ΔG<sub>m</sub> = ΔH<sub>m</sub> − T ΔS<sub>m</sub></span>. Criterio de Hildebrand: <span class="math-sym">|δ<sub>pol</sub> − δ<sub>solv</sub>| ⟶ 0</span>. Disolución en lineales vs. Hinchamiento elástico de Flory-Rehner en redes.</p>
+        <div class="node-formula">δ = √(<span class="math-frac"><span class="num">ΔE<sub>v</sub></span><span class="den">V<sub>m</sub></span></span>) &emsp;&emsp; χ &lt; 0.5 &nbsp; (Flory-Huggins)</div>
+      </div>
+
+      <div class="node-card node-visual" style="left: 1150px; top: 2100px; width: 380px;" data-stop="13">
+        <img src="recortes_libros/fig_slide11_shackelford_solubilidad.png" alt="Parámetros de Solubilidad">
+        <div class="visual-caption">Parámetros de Solubilidad de Hildebrand (δ) y Líneas de Solubilidad en Disolventes.</div>
+      </div>
+
+      <!-- MÓDULO 3: REOLOGÍA Y PROCESAMIENTO (X=2250, Y=1750) -->
+      <div class="node-card node-satellite" id="node_processing" style="left: 2250px; top: 1750px;" data-stop="14">
+        <div class="node-tag">Operaciones Unitarias</div>
+        <h3>Reología y Procesamiento Industrial</h3>
+        <p class="node-desc">Flujo pseudoplástico no newtoniano (<em>shear thinning</em> con <span class="math-sym">τ = K · γ̇<sup>n</sup>, n &lt; 1</span>). Extrusión de tornillo y moldeo por inyección a alta presión.</p>
+        <div class="node-formula">τ = K · γ̇<sup>n</sup> &nbsp; (n &lt; 1) &emsp;&emsp; η(γ̇) = K · γ̇<sup>n−1</sup></div>
+      </div>
+
+      <div class="node-card node-visual" style="left: 2250px; top: 2100px; width: 380px;" data-stop="14">
+        <img src="recortes_libros/fig_slide12_askeland_procesamiento.png" alt="Procesamiento de Polímeros">
+        <div class="visual-caption">Maquinaria Industrial: Máquina de extrusión continua y ciclo de moldeo por inyección de alta presión.</div>
+      </div>
+
+      <!-- MÓDULO 4: CUADRO COMPARATIVO MAESTRO (X=2250, Y=2650) -->
+      <div class="node-card node-satellite" id="node_master_table" style="left: 2250px; top: 2650px; width: 480px;" data-stop="15">
+        <div class="node-tag">Síntesis Comparativa</div>
+        <h3>Cuadro Maestro de Categorías de Polímeros</h3>
+        <p class="node-desc">Comparativa sistemática entre Termoplásticos, Termofijos y Elastómeros en cuanto a tipo de enlace, ductilidad mecánica y capacidad de reprocesamiento por fusión.</p>
+      </div>
+
+      <div class="node-card node-visual" style="left: 2250px; top: 2980px; width: 480px;" data-stop="15">
+        <img src="recortes_libros/askeland_tabla_16_1_categorias.png" alt="Tabla Comparativa de Polímeros">
+        <div class="visual-caption">Comparación de las Tres Categorías Principales de Polímeros: Termoplásticos, Termofijos y Elastómeros.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Controles de Zoom en Pantalla -->
+  <div class="map-controls">
+    <button class="btn-zoom" id="btnZoomIn" title="Acercar (Zoom +)">+</button>
+    <button class="btn-zoom" id="btnZoomOut" title="Alejar (Zoom -)">−</button>
+    <button class="btn-zoom" id="btnResetView" title="Reajustar a la vista global">⟲</button>
+  </div>
+
+  <!-- Barra Inferior de Navegación del Tour Prezi -->
+  <footer class="tour-controller">
+    <div class="tour-global-progress">
+      <div class="tour-global-progress-fill" id="tourProgressFill"></div>
+    </div>
+    
+    <div class="tour-info">
+      <span class="tour-step-counter" id="tourStepBadge">Vista Panorámica Global</span>
+      <span class="tour-current-title" id="tourTitle"></span>
+    </div>
+
+    <div class="tour-nav-buttons">
+      <button class="btn-tour-nav" id="btnPrevStop">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        Anterior
+      </button>
+
+      <button class="btn-tour-nav" id="btnToggleDrawer">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+        Detalle Teórico
+      </button>
+
+      <button class="btn-tour-nav primary" id="btnNextStop">
+        Siguiente
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Drawer Lateral de Inspección Profunda -->
+  <aside class="detail-drawer" id="detailDrawer">
+    <div class="drawer-header">
+      <div class="drawer-title-area">
+        <div class="drawer-cat" id="drawerCat">Fundamentos de Ingeniería de Polímeros</div>
+        <h2 id="drawerHeading">Características Moleculares</h2>
+      </div>
+      <button class="btn-close-drawer" id="btnCloseDrawer">✕</button>
+    </div>
+
+    <div class="drawer-content">
+      
+      <!-- Imagen Recortada del Libro -->
+      <div class="book-clip-container" id="bookClipBox">
+        <img id="bookClipImg" src="recortes_libros/callister_fig_4_8_original.png" alt="Recorte de Evidencia" title="Haz clic para ampliar">
+        <div class="book-clip-caption" id="bookClipCaption">Evidencia Textual y Gráfica del Libro</div>
+      </div>
+
+      <!-- Fórmula Matemática LaTeX -->
+      <div class="formula-showcase" id="formulaBox" style="display: none;">
+        <div id="latexFormula"></div>
+      </div>
+
+      <!-- Texto de Desarrollo Teórico -->
+      <div class="speech-transcript">
+        <h4>Fundamento Teórico y Relevancia Ingenieril:</h4>
+        <div id="speechText">Cargando desarrollo analítico...</div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- Modal Lightbox para Ampliar Imágenes -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <span class="lightbox-close" id="btnLightboxClose">&times;</span>
+    <img id="lightboxImg" src="" alt="Ampliación de evidencia">
+  </div>
+
+  <!-- ==========================================================================
+       DATOS DE LAS PARADAS DEL TOUR (SIN AUDIOS, CON SITIOS ACTIVOS Y FÓRMULAS)
+       ========================================================================== -->
+  <script>
+    const TOUR_STOPS = [
+      {
+        id: 1,
+        nodeId: "node_root",
+        title: "Esquema Fundamental de Características Moleculares",
+        category: "Universidad de Guanajuato · Fundamentos de Ingeniería de Polímeros",
+        camX: 2700, camY: 340, zoom: 0.95,
+        image: "recortes_libros/callister_fig_4_8_original.png",
+        imageCaption: "Esquema sistemático de clasificación de características moleculares.",
+        latex: "\\text{Composici\\acute{o}n Qu\\acute{i}mica} + \\text{Tama\\tilde{n}o} + \\text{Forma} + \\text{Estructura} \\longrightarrow \\text{Respuesta Mec\\acute{a}nica y T\\acute{e}rmica}",
+        htmlFormula: "Composición Química + Tamaño + Forma + Estructura <span class='math-arrow'>⟶</span> Respuesta Mecánica y Térmica",
+        speech: "<p>El estudio de las macromoléculas se fundamenta en la interdependencia entre cuatro dimensiones estructurales primarias: la química del mero, el tamaño (peso molecular), la forma conformacional y la arquitectura topológica.</p><p>Para el diseño y procesamiento de materiales, este árbol clasificatorio permite predecir el comportamiento reológico en fundido, la cristalinidad y la resistencia bajo carga mecánica en servicio.</p>"
+      },
+      {
+        id: 2,
+        nodeId: "node_func_groups",
+        title: "Composición Química y Grupos Funcionales Orgánicos",
+        category: "Eje Químico · Reactividad y Cohesión Intermolecular",
+        camX: 320, camY: 960, zoom: 1.15,
+        image: "recortes_libros/callister_tabla_4_2_grupos.png",
+        imageCaption: "Tabla de Grupos Funcionales Orgánicos en Polímeros: ésteres, amidas, alcoholes y fenilenos.",
+        latex: "\\Delta E_{\\mathrm{coh}}(\\mathrm{Amida}) > 30 \\ \\mathrm{kJ/mol} \\quad \\implies \\quad T_m(\\mathrm{Nylon\\ 6,6}) \\approx 265^\\circ\\mathrm{C}",
+        htmlFormula: "ΔE<sub>coh</sub>(Amida) &gt; 30 kJ/mol &emsp;⟹&emsp; T<sub>m</sub>(Nylon 6,6) ≈ 265 °C",
+        speech: "<p>La reactividad y propiedades de los polímeros están gobernadas por sus grupos funcionales. Los dobles enlaces <b>C=C</b> permiten la adición en cadena vinílica sin subproductos.</p><p>Los grupos amida (<b>-CO-NH-</b>) aportan intensos puentes de hidrógeno intercadenas con densidad de energía cohesiva superior a 30 kJ/mol, lo que eleva el punto de fusión del Nylon 6,6 a más de 260 °C. Por su parte, la inclusión de anillos aromáticos en la columna vertebral macromolecular incrementa la rigidez flexional y la temperatura de transición vítrea (T<sub>g</sub>).</p>"
+      },
+      {
+        id: 3,
+        nodeId: "node_synthesis",
+        title: "Mecanismos de Síntesis y Sitios Activos Radicalarios",
+        category: "Eje Químico · Crecimiento en Cadena vs. Por Pasos",
+        camX: 750, camY: 1100, zoom: 1.1,
+        image: "recortes_libros/callister_sitio_activo_radical.png",
+        imageCaption: "Mecanismo de Propagación: El sitio activo (electrón desapareado ·) se transfiere secuencialmente al extremo de la cadena.",
+        latex: "\\overline{DP}_n = \\frac{1}{1 - p} \\quad \\implies \\quad p \\geq 0.99 \\ \\text{para } \\overline{DP}_n \\geq 100 \\quad [\\text{Carothers}]",
+        htmlFormula: "<span class='math-overline'>DP</span><sub>n</sub> = <span class='math-frac'><span class='num'>1</span><span class='den'>1 − p</span></span> &emsp;⟹&emsp; p ≥ 0.99 para <span class='math-overline'>DP</span><sub>n</sub> ≥ 100 &emsp; [Carothers]",
+        speech: "<p>En la polimerización por adición vinílica, un iniciador genera un <strong>sitio activo</strong> (centro activo con electrón desapareado •) que se transfiere de forma ultrarrápida al extremo de la cadena en crecimiento.</p><p>En contraste, en la policondensación por pasos (como en el PET y las poliamidas), la reacción de grupos difuncionales elimina pequeñas moléculas (H<sub>2</sub>O, HCl). La ecuación de Carothers demuestra que para alcanzar pesos moleculares estructurales útiles (<span class='math-overline'>DP</span><sub>n</sub> ≥ 100) se requiere una conversión química p ≥ 0.99, exigiendo reactores de alto vacío para evaporar el subproducto condensado.</p>"
+      },
+      {
+        id: 4,
+        nodeId: "node_additives",
+        title: "Formulación y Uso de Aditivos Industriales",
+        category: "Eje Químico · Modificación de Procesabilidad y Costo",
+        camX: 1180, camY: 960, zoom: 1.15,
+        image: "recortes_libros/callister_sec_14_12_aditivos.png",
+        imageCaption: "Clasificación de Aditivos: Plastificantes, cargas minerales, estabilizantes y retardantes de llama.",
+        latex: "\\text{PVC R\\acute{i}gido } (T_g \\approx 85^\\circ\\mathrm{C}) \\xrightarrow{+\\mathrm{Ftalatos}} \\text{PVC Flexible } (T_g < 0^\\circ\\mathrm{C})",
+        htmlFormula: "PVC Rígido (T<sub>g</sub> ≈ 85 °C) &ensp;──[+ Ftalatos]──> &ensp;PVC Flexible (T<sub>g</sub> &lt; 0 °C)",
+        speech: "<p>Un polímero puro rara vez posee viabilidad comercial por sí solo. Los aditivos representan la tecnología de formulación indispensable para su aplicación.</p><p>Los plastificantes (como los ftalatos en PVC) se intercalan entre cadenas, reducen las fuerzas secundarias y descienden drásticamente la T<sub>g</sub>. Las cargas minerales (CaCO<sub>3</sub>, talco) elevan el módulo y reducen la contracción volumétrica. Los estabilizantes térmicos y absorbedores UV (HALS) inhiben la fotodegradación y la escisión de cadenas durante el procesado a alta temperatura.</p>"
+      },
+      {
+        id: 5,
+        nodeId: "node_dp",
+        title: "Grado de Polimerización (DP) y Umbral Mecánico",
+        category: "Eje Molecular · Longitud de Cadena Macromolecular",
+        camX: 1620, camY: 780, zoom: 1.25,
+        image: "recortes_libros/callister_fig_4_4_mn_mw.png",
+        imageCaption: "Distribución de tamaños moleculares y posiciones de Mn (número) y Mw (peso).",
+        latex: "DP = \\frac{\\bar{M}_n}{m_0} \\qquad m_0 = \\sum_{j} f_j \\, m_j \\qquad DP_{\\mathrm{cr\\acute{i}tico}} > 100\\text{--}200",
+        htmlFormula: "DP = <span class='math-frac'><span class='num'><span class='math-overline'>M</span><sub>n</sub></span><span class='den'>m<sub>0</sub></span></span> &emsp;&emsp; m<sub>0</sub> = Σ f<sub>j</sub> m<sub>j</sub> &emsp;&emsp; DP<sub>crítico</sub> &gt; 100–200",
+        speech: "<p>El Grado de Polimerización (DP) expresa el número medio de meros eslabonados en la macromolécula. Para copolímeros, el peso del mero m<sub>0</sub> se obtiene mediante la suma ponderada de fracciones molares f<sub>j</sub>.</p><p>Desde la perspectiva ingenieril, el DP representa un <strong>umbral crítico</strong>: por debajo de DP ≈ 100–200, las fuerzas intermoleculares de Van der Waals son insuficientes para transmitir esfuerzos y el material se fractura como una parafina quebradiza. Solo superando este umbral se consolidan los entrelazamientos mecánicos estables.</p>"
+      },
+      {
+        id: 6,
+        nodeId: "node_dist",
+        title: "Distribuciones Moleculares y Dispersidad (PDI)",
+        category: "Eje Molecular · Fracción Numérica vs. Fracción en Peso",
+        camX: 2050, camY: 960, zoom: 1.15,
+        image: "recortes_libros/callister_fig_4_3_distribucion_pm.png",
+        imageCaption: "Curvas de Distribución de Peso Molecular: (a) Fracción en número y (b) Fracción en peso.",
+        latex: "PDI = \\frac{\\bar{M}_w}{\\bar{M}_n} \\qquad \\bar{M}_n = \\sum x_i M_i \\qquad \\bar{M}_w = \\sum w_i M_i",
+        htmlFormula: "PDI = <span class='math-frac'><span class='num'><span class='math-overline'>M</span><sub>w</sub></span><span class='den'><span class='math-overline'>M</span><sub>n</sub></span></span> &emsp;&emsp; <span class='math-overline'>M</span><sub>n</sub> = Σ x<sub>i</sub> M<sub>i</sub> &emsp;&emsp; <span class='math-overline'>M</span><sub>w</sub> = Σ w<sub>i</sub> M<sub>i</sub>",
+        speech: "<p>Las síntesis poliméricas generan mezclas polidispersas de cadenas de longitudes variables. El peso molecular promedio en número (<span class='math-overline'>M</span><sub>n</sub>) es sensible a las especies más cortas, mientras que el promedio en peso (<span class='math-overline'>M</span><sub>w</sub>) pondera fuertemente a las moléculas más largas.</p><p>El cociente PDI = <span class='math-overline'>M</span><sub>w</sub> / <span class='math-overline'>M</span><sub>n</sub> mide la amplitud de la distribución molecular. Polímeros con alto PDI exhiben mejor fluidez en fundido, mientras que distribuciones estrechas (PDI ⟶ 1) ofrecen mayor tenacidad y menor deformación residual.</p>"
+      },
+      {
+        id: 7,
+        nodeId: "node_regimes",
+        title: "Regímenes de Peso Molecular y Ecuación de Fox-Flory",
+        category: "Eje Molecular · Reología de Fundidos y Temperatura Vítrea",
+        camX: 2480, camY: 780, zoom: 1.25,
+        image: "recortes_libros/callister_fig_4_3_distribucion_pm.png",
+        imageCaption: "Distribuciones asimétricas de peso molecular en regímenes comerciales.",
+        latex: "T_g = T_{g,\\infty} - \\frac{K}{\\bar{M}_n} \\quad [\\text{Fox-Flory}] \\qquad \\eta_0 \\propto \\bar{M}_w^{3.4} \\quad (\\bar{M}_w > M_c)",
+        htmlFormula: "T<sub>g</sub> = T<sub>g,∞</sub> − <span class='math-frac'><span class='num'>K</span><span class='den'><span class='math-overline'>M</span><sub>n</sub></span></span> &emsp;[Fox-Flory]&emsp;&emsp; η<sub>0</sub> ∝ <span class='math-overline'>M</span><sub>w</sub><sup>3.4</sup> &emsp;(<span class='math-overline'>M</span><sub>w</sub> &gt; M<sub>c</sub>)",
+        speech: "<p>Se distinguen tres regímenes de peso molecular: Bajo (&lt; 10<sup>4</sup> g/mol, ceras oligoméricas), Medio (10<sup>4</sup>–10<sup>5</sup> g/mol, rango estándar para inyección y extrusión) y Ultra-alto (&gt; 10<sup>6</sup> g/mol, UHMWPE).</p><p>La ecuación de Fox-Flory describe cómo la T<sub>g</sub> alcanza un valor asintótico (T<sub>g,∞</sub>) al reducirse la concentración de extremos libres de cadena. Por encima de la masa crítica de entrelazamiento (M<sub>c</sub>), la viscosidad en reposo escala con la potencia 3.4 del peso molecular, lo que explica por qué materiales ultra-altos no pueden ser inyectados convencionalmente.</p>"
+      },
+      {
+        id: 8,
+        nodeId: "node_shape",
+        title: "Forma Molecular (Conformación) y Ovillamiento",
+        category: "Eje Espacial · Rotación de Enlaces y Ovillo Aleatorio",
+        camX: 3350, camY: 960, zoom: 1.15,
+        image: "recortes_libros/fig_slide07_callister_shape.png",
+        imageCaption: "Ovillamiento de Cadena Macromolecular: Distancia cuadrática media extremo a extremo.",
+        latex: "\\langle r^2 \\rangle^{1/2} = l \\sqrt{N} \\left( \\frac{1 + \\cos\\theta}{1 - \\cos\\theta} \\right)^{1/2} \\quad (\\theta = 109.5^\\circ)",
+        htmlFormula: "⟨r<sup>2</sup>⟩<sup>1/2</sup> = l · √N · [(1 + cos θ) / (1 − cos θ)]<sup>1/2</sup> &emsp; (θ = 109.5°)",
+        speech: "<p>La conformación o forma molecular describe las disposiciones geométricas adoptadas por simple rotación en torno a enlaces sencillos carbono-carbono (σ) sin romper enlaces químicos.</p><p>En equilibrio térmico, la cadena adopta la conformación de ovillo aleatorio (<em>random coil</em>), minimizando la energía libre y maximizando la entropía conformacional. Durante procesos de estiramiento uniaxial o extrusión de película soplada, las fuerzas de cizalla desenrollan y orientan los ovillos paralelamente, incrementando significativamente la resistencia mecánica en la dirección del flujo.</p>"
+      },
+      {
+        id: 9,
+        nodeId: "node_structure",
+        title: "Topología Estructural: Lineal, Ramificada, Entrecruzada y En Red",
+        category: "Eje Topológico · Arquitectura y Redes Tridimensionales",
+        camX: 4650, camY: 960, zoom: 1.1,
+        image: "recortes_libros/callister_fig_4_7_completa.png",
+        imageCaption: "Las Cuatro Topologías: (a) Lineal, (b) Ramificada, (c) Entrecruzada y (d) Red tridimensional continua.",
+        latex: "\\bar{M}_w \\to \\infty \\quad [\\text{Gel Point}] \\qquad T_d < T_m \\quad [\\text{Degradaci\\acute{o}n Covalente}]",
+        htmlFormula: "<span class='math-overline'>M</span><sub>w</sub> ⟶ ∞ &emsp;[Punto de Gel]&emsp;&emsp;&emsp; T<sub>d</sub> &lt; T<sub>m</sub> &emsp;[Degradación Covalente]",
+        speech: "<p>La arquitectura macromolecular define la movilidad de las cadenas. Los polímeros lineales (HDPE, PVC) y ramificados (LDPE) poseen cadenas independientes que pueden deslizarse térmicamente, permitiendo la fusión y el reciclaje.</p><p>Por el contrario, los polímeros entrecruzados (elastómeros vulcanizados) y en red tridimensional (<em>network polymers</em>, como resinas epoxi y fenólicas) poseen enlaces covalentes primarios en las tres direcciones del espacio. Al alcanzar el punto de gelificación (<em>gel point</em>), la masa molar diverge a infinito; el material se vuelve infusible e insoluble, degradándose químicamente por pirólisis covalente antes de experimentar cualquier flujo.</p>"
+      },
+      {
+        id: 10,
+        nodeId: "node_isomeric",
+        title: "Estados Isoméricos: Tacticidad y Estereoisomería",
+        category: "Convergencia Estérica · Configuración Espacial Primaria",
+        camX: 4350, camY: 1980, zoom: 1.15,
+        image: "recortes_libros/fig_slide08_callister_tacticidad.png",
+        imageCaption: "Tacticidad en Polímeros: Configuraciones Isotáctica, Sindiotáctica y Atáctica.",
+        latex: "\\text{PP Isot\\acute{a}ctico } (T_m = 165^\\circ\\mathrm{C}, \\text{cristalino}) \\quad \\text{vs.} \\quad \\text{PP At\\acute{a}ctico } (\\text{pasta amorfa})",
+        htmlFormula: "PP Isotáctico (T<sub>m</sub> = 165 °C, cristalino) &emsp;vs.&emsp; PP Atáctico (pasta amorfa)",
+        speech: "<p>La configuración es la estructura estérica fija que solo puede alterarse mediante la ruptura y recombinación de enlaces covalentes primarios. La estereoisomería o tacticidad describe la orientación de los grupos sustituyentes R respecto a la cadena principal.</p><p>En la configuración <strong>isotáctica</strong> todos los grupos R están del mismo lado, facilitando un empaquetamiento altamente cristalino (T<sub>m</sub> = 165 °C en polipropileno con catalizadores Ziegler-Natta). En la forma <strong>sindiotáctica</strong> los grupos alternan regularmente, mientras que en la forma <strong>atáctica</strong> la distribución caótica impide la cristalización, produciendo un polímero 100% amorfo y pastoso sin resistencia mecánica.</p>"
+      },
+      {
+        id: 11,
+        nodeId: "node_geom",
+        title: "Isómeros Geométricos (cis/trans) y Sitios Activos en Dienos",
+        category: "Convergencia Estérica · Dobles Enlaces y Vulcanización",
+        camX: 4950, camY: 2060, zoom: 1.1,
+        image: "recortes_libros/askeland_sitios_activos_dienos.png",
+        imageCaption: "Sitios Activos en Dienos y Formación de Isómeros Geométricos en el Isopreno.",
+        latex: "\\text{cis-Poliisopreno } (T_g = -70^\\circ\\mathrm{C}, \\text{Caucho}) \\quad \\text{vs.} \\quad \\text{trans-Poliisopreno } (\\text{Gutapercha r\\acute{i}gida})",
+        htmlFormula: "cis-Poliisopreno (T<sub>g</sub> = −70 °C, Caucho) &emsp;vs.&emsp; trans-Poliisopreno (Gutapercha rígida)",
+        speech: "<p>En monómeros dienos con dos dobles enlaces, la polimerización rompe ambos enlaces, crea un nuevo enlace doble central y <strong>deja sitios activos en los extremos</strong> para continuar el crecimiento de cadena o para la reticulación con azufre (vulcanización).</p><p>La geometría en torno al doble enlace define drásticamente el material: el <em>cis-1,4-poliisopreno</em> (caucho natural) posee una cadena replegada que impide cristalizar a temperatura ambiente, comportándose como un elastómero de alto rebote (T<sub>g</sub> = −70 °C). En contraste, el <em>trans-1,4-poliisopreno</em> (gutapercha) adopta una conformación lineal extendida altamente cristalina y rígida a 25 °C, utilizada en recubrimientos duros y pelotas de golf.</p>"
+      },
+      {
+        id: 12,
+        nodeId: "node_tg_thermo",
+        title: "Termodinámica de la Transición Vítrea (Tg) y Redes Termofijas",
+        category: "Módulo Termodinámico · Volumen Libre y Viscoelasticidad",
+        camX: 3350, camY: 1920, zoom: 1.15,
+        image: "recortes_libros/fig_slide03_askeland_temperatura.png",
+        imageCaption: "Curva Maestra Reológica: Módulo de Elasticidad vs. Temperatura para amorfos, semicristalinos y termoestables.",
+        latex: "T_g < T_{\\mathrm{servicio}} < T_m \\quad [\\mathrm{Termopl\\acute{a}stico}] \\qquad T_{\\mathrm{servicio}} < T_g < T_d \\quad [\\mathrm{Termofijo}]",
+        htmlFormula: "T<sub>g</sub> &lt; T<sub>servicio</sub> &lt; T<sub>m</sub> &nbsp; [Termoplástico] &emsp;vs.&emsp; T<sub>servicio</sub> &lt; T<sub>g</sub> &lt; T<sub>d</sub> &nbsp; [Termofijo]",
+        speech: "<p>La Temperatura de Transición Vítrea (T<sub>g</sub>) marca el umbral térmico donde el volumen libre alcanza la fracción crítica del 2.5%, descongelando los movimientos segmentarios concertados de la cadena principal.</p><p>En polímeros termoplásticos semicristalinos, operar entre T<sub>g</sub> y T<sub>m</sub> confiere alta tenacidad al combinar dominios amorfos flexibles con cristalitas rígidas. En polímeros termofijos reticulados, la densidad de entrecruzamiento mantiene una meseta de módulo elástico bajo temperatura, evitando la fusión y retrasando la degradación térmica hasta la temperatura de pirólisis T<sub>d</sub>.</p>"
+      },
+      {
+        id: 13,
+        nodeId: "node_solubility",
+        title: "Solubilidad, Parámetros de Hildebrand e Hinchamiento",
+        category: "Módulo Termodinámico · Flory-Huggins y Flory-Rehner",
+        camX: 1150, camY: 1920, zoom: 1.15,
+        image: "recortes_libros/fig_slide11_shackelford_solubilidad.png",
+        imageCaption: "Tabla de Parámetros de Solubilidad de Hildebrand (delta) y Líneas de Solubilidad en Disolventes.",
+        latex: "\\Delta G_m = \\Delta H_m - T \\Delta S_m \\qquad \\delta = \\sqrt{\\frac{\\Delta E_v}{V_m}} \\qquad |\\delta_{\\mathrm{pol}} - \\delta_{\\mathrm{solv}}| \\to 0",
+        htmlFormula: "ΔG<sub>m</sub> = ΔH<sub>m</sub> − T ΔS<sub>m</sub> &emsp;&emsp; δ = √(<span class='math-frac'><span class='num'>ΔE<sub>v</sub></span><span class='den'>V<sub>m</sub></span></span>) &emsp;&emsp; |δ<sub>pol</sub> − δ<sub>solv</sub>| ⟶ 0",
+        speech: "<p>En soluciones poliméricas, la entropía de mezcla ΔS<sub>m</sub> es extraordinariamente reducida debido al confinamiento de los meros en cadenas enlazadas. Por lo tanto, la disolución espontánea (ΔG<sub>m</sub> &lt; 0) requiere que la entalpía de mezcla ΔH<sub>m</sub> sea cercana a cero.</p><p>El criterio de Hildebrand establece que la miscibilidad ocurre cuando los parámetros de solubilidad δ (densidad de energía cohesiva) del polímero y disolvente son muy próximos. Mientras que las cadenas lineales se disuelven completamente, las redes entrecruzadas son insolubles y solo experimentan <strong>hinchamiento en equilibrio</strong> (modelo de Flory-Rehner), equilibrando la presión osmótica de solvatación con la retracción elástica de los enlaces cruzados.</p>"
+      },
+      {
+        id: 14,
+        nodeId: "node_processing",
+        title: "Reología de Fundidos y Procesamiento Industrial",
+        category: "Módulo Tecnológico · Operaciones Unitarias de Transformación",
+        camX: 2250, camY: 1920, zoom: 1.15,
+        image: "recortes_libros/fig_slide12_askeland_procesamiento.png",
+        imageCaption: "Maquinaria Industrial: Extrusión continua de tornillo y moldeo por inyección de alta presión.",
+        latex: "\\tau = K \\, \\dot{\\gamma}^n \\quad (n < 1, \\text{ pseudopl\\acute{a}stico}) \\qquad \\eta(\\dot{\\gamma}) = K \\, \\dot{\\gamma}^{n-1}",
+        htmlFormula: "τ = K · γ̇<sup>n</sup> &nbsp; (n &lt; 1, pseudoplástico) &emsp;&emsp; η(γ̇) = K · γ̇<sup>n−1</sup>",
+        speech: "<p>Los polímeros fundidos son fluidos no newtonianos pseudoplásticos que exhiben adelgazamiento por cizalla (<em>shear thinning</em> con n &lt; 1). A altas tasas de deformación en boquillas de inyección, las cadenas se desenrollan y orientan, reduciendo drásticamente la viscosidad aparente y facilitando el llenado del molde.</p><p>La extrusión continua gobierna la producción de tuberías, perfiles y películas tubulares por soplado. El moldeo por inyección opera a presiones superiores a 1,000 bar en ciclos cerrados de alta precisión, requiriendo presión de empaque para compensar la contracción volumétrica por cristalización.</p>"
+      },
+      {
+        id: 15,
+        nodeId: "node_master_table",
+        title: "Cuadro Maestro Comparativo: Categorías de Polímeros",
+        category: "Síntesis Tecnológica · Propiedades, Enlaces y Reciclabilidad",
+        camX: 2250, camY: 2850, zoom: 1.1,
+        image: "recortes_libros/askeland_tabla_16_1_categorias.png",
+        imageCaption: "Tabla Comparativa de las Tres Categorías Principales de Polímeros.",
+        latex: "\\text{Termopl\\acute{a}sticos (Reciclables)} \\quad \\longleftrightarrow \\quad \\text{Termofijos (Reticulados Covalentes)} \\quad \\longleftrightarrow \\quad \\text{Elast\\acute{o}meros}",
+        htmlFormula: "Termoplásticos (Reciclables) &ensp;⟷&ensp; Termofijos (Reticulados Covalentes) &ensp;⟷&ensp; Elastómeros",
+        speech: "<p>Esta síntesis comparativa condensa las distinciones fundamentales entre las tres grandes familias de polímeros:</p><p>1. <strong>Termoplásticos:</strong> cadenas lineales o ramificadas unidas por fuerzas secundarias de Van der Waals; dúctiles, fusibles mecánicamente y totalmente reciclables por calentamiento.<br>2. <strong>Termofijos:</strong> redes tridimensionales reticuladas covalentemente; rígidos, resistentes a la fluencia pero frágiles, e infusibles (se descomponen por encima de T<sub>d</sub>).<br>3. <strong>Elastómeros:</strong> cadenas reticuladas ligeramente con memoria elástica superior al 200% de deformación reversible.</p>"
+      }
+    ];
+
+    /* ==========================================================================
+       MOTOR PREZI DE CÁMARA Y NAVEGACIÓN
+       ========================================================================== */
+    class PreziEngine {
+      constructor() {
+        this.viewport = document.getElementById("viewport");
+        this.stage = document.getElementById("stage");
+        this.currentScale = 0.65;
+        this.posX = 0;
+        this.posY = 0;
+        this.isDragging = false;
+        this.startX = 0;
+        this.startY = 0;
+        this.currentTourIndex = 0;
+
+        this.init();
+      }
+
+      init() {
+        window.addEventListener("resize", () => this.fitToOverview());
+        setTimeout(() => this.fitToOverview(), 150);
+
+        // Pan con Mouse Drag
+        this.viewport.addEventListener("mousedown", (e) => {
+          if (e.target.closest(".node-card")) return;
+          this.isDragging = true;
+          this.viewport.classList.add("dragging");
+          this.stage.classList.add("no-transition");
+          this.startX = e.clientX - this.posX;
+          this.startY = e.clientY - this.posY;
+        });
+
+        window.addEventListener("mousemove", (e) => {
+          if (!this.isDragging) return;
+          this.posX = e.clientX - this.startX;
+          this.posY = e.clientY - this.startY;
+          this.updateTransform();
+        });
+
+        window.addEventListener("mouseup", () => {
+          if (this.isDragging) {
+            this.isDragging = false;
+            this.viewport.classList.remove("dragging");
+            this.stage.classList.remove("no-transition");
+          }
+        });
+
+        // Zoom con Rueda del Ratón hacia la posición del cursor
+        this.viewport.addEventListener("wheel", (e) => {
+          e.preventDefault();
+          const zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
+          const rect = this.viewport.getBoundingClientRect();
+          const mouseX = e.clientX - rect.left;
+          const mouseY = e.clientY - rect.top;
+
+          const newScale = Math.min(Math.max(this.currentScale * zoomFactor, 0.18), 2.5);
+          
+          this.posX = mouseX - (mouseX - this.posX) * (newScale / this.currentScale);
+          this.posY = mouseY - (mouseY - this.posY) * (newScale / this.currentScale);
+          this.currentScale = newScale;
+          
+          this.stage.classList.add("no-transition");
+          this.updateTransform();
+          clearTimeout(this.wheelTimeout);
+          this.wheelTimeout = setTimeout(() => {
+            this.stage.classList.remove("no-transition");
+          }, 150);
+        }, { passive: false });
+
+        // Clic en Nodos del Árbol
+        document.querySelectorAll(".node-card").forEach(node => {
+          node.addEventListener("click", () => {
+            const stopId = parseInt(node.getAttribute("data-stop"));
+            if (stopId) {
+              this.goToStop(stopId - 1);
+            }
+          });
+        });
+
+        // Botones de Navegación del Tour
+        document.getElementById("btnNextStop").addEventListener("click", () => this.nextStop());
+        document.getElementById("btnPrevStop").addEventListener("click", () => this.prevStop());
+        document.getElementById("btnFitOverview").addEventListener("click", () => this.fitToOverview());
+        document.getElementById("btnStartTour").addEventListener("click", () => this.goToStop(0));
+        document.getElementById("btnResetView").addEventListener("click", () => this.fitToOverview());
+        document.getElementById("btnZoomIn").addEventListener("click", () => this.zoomStep(1.25));
+        document.getElementById("btnZoomOut").addEventListener("click", () => this.zoomStep(0.8));
+
+        // Drawer de Detalle
+        const drawer = document.getElementById("detailDrawer");
+        document.getElementById("btnToggleDrawer").addEventListener("click", () => {
+          drawer.classList.toggle("open");
+        });
+        document.getElementById("btnCloseDrawer").addEventListener("click", () => {
+          drawer.classList.remove("open");
+        });
+
+        // Lightbox modal para imágenes
+        const lightbox = document.getElementById("lightboxModal");
+        const lightboxImg = document.getElementById("lightboxImg");
+        document.getElementById("bookClipImg").addEventListener("click", (e) => {
+          lightboxImg.src = e.target.src;
+          lightbox.classList.add("open");
+        });
+        document.getElementById("btnLightboxClose").addEventListener("click", () => {
+          lightbox.classList.remove("open");
+        });
+        lightbox.addEventListener("click", (e) => {
+          if (e.target === lightbox) lightbox.classList.remove("open");
+        });
+
+        // Teclado
+        window.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowRight" || e.key === "PageDown") {
+            this.nextStop();
+          } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+            this.prevStop();
+          } else if (e.key === "Escape") {
+            drawer.classList.remove("open");
+            lightbox.classList.remove("open");
+          } else if (e.key === "Home") {
+            this.fitToOverview();
+          }
+        });
+      }
+
+      updateTransform() {
+        this.stage.style.transform = `translate(${this.posX}px, ${this.posY}px) scale(${this.currentScale})`;
+      }
+
+      flyTo(stageX, stageY, targetScale) {
+        const vpW = this.viewport.clientWidth;
+        const vpH = this.viewport.clientHeight;
+
+        const drawerOffset = (window.innerWidth > 900 && document.getElementById("detailDrawer").classList.contains("open")) ? -180 : 0;
+
+        this.currentScale = targetScale;
+        this.posX = (vpW / 2 + drawerOffset) - (stageX * targetScale);
+        this.posY = (vpH / 2) - (stageY * targetScale);
+
+        this.stage.classList.remove("no-transition");
+        this.updateTransform();
+      }
+
+      fitToOverview() {
+        const vpW = this.viewport.clientWidth;
+        const vpH = this.viewport.clientHeight;
+        const scaleX = vpW / 5800;
+        const scaleY = (vpH - 80) / 3400;
+        const scale = Math.min(scaleX, scaleY, 0.42);
+
+        this.flyTo(2700, 1600, scale);
+        document.getElementById("tourStepBadge").innerText = "Vista Panorámica Global";
+        document.getElementById("tourTitle").innerText = "";
+        document.querySelectorAll(".node-card").forEach(n => n.classList.remove("active-tour"));
+      }
+
+      zoomStep(factor) {
+        const vpW = this.viewport.clientWidth;
+        const vpH = this.viewport.clientHeight;
+        const centerX = vpW / 2;
+        const centerY = vpH / 2;
+
+        const newScale = Math.min(Math.max(this.currentScale * factor, 0.18), 2.5);
+        this.posX = centerX - (centerX - this.posX) * (newScale / this.currentScale);
+        this.posY = centerY - (centerY - this.posY) * (newScale / this.currentScale);
+        this.currentScale = newScale;
+        this.updateTransform();
+      }
+
+      goToStop(index) {
+        if (index < 0 || index >= TOUR_STOPS.length) return;
+        this.currentTourIndex = index;
+        const stop = TOUR_STOPS[index];
+
+        document.querySelectorAll(".node-card").forEach(n => n.classList.remove("active-tour"));
+        const targetNode = document.getElementById(stop.nodeId);
+        if (targetNode) targetNode.classList.add("active-tour");
+
+        this.flyTo(stop.camX, stop.camY, stop.zoom);
+
+        document.getElementById("tourStepBadge").innerText = `Parada ${String(stop.id).padStart(2, '0')} de ${String(TOUR_STOPS.length).padStart(2, '0')} · ${stop.category}`;
+        document.getElementById("tourTitle").innerText = stop.title;
+        document.getElementById("tourProgressFill").style.width = `${((index + 1) / TOUR_STOPS.length) * 100}%`;
+
+        document.getElementById("btnPrevStop").disabled = (index === 0);
+        document.getElementById("btnNextStop").innerText = (index === TOUR_STOPS.length - 1) ? "Finalizar" : "Siguiente";
+
+        this.updateDrawerContent(stop);
+      }
+
+      nextStop() {
+        if (this.currentTourIndex < TOUR_STOPS.length - 1) {
+          this.goToStop(this.currentTourIndex + 1);
+        } else {
+          this.fitToOverview();
+        }
+      }
+
+      prevStop() {
+        if (this.currentTourIndex > 0) {
+          this.goToStop(this.currentTourIndex - 1);
+        }
+      }
+
+      updateDrawerContent(stop) {
+        document.getElementById("drawerCat").innerText = stop.category;
+        document.getElementById("drawerHeading").innerText = stop.title;
+        document.getElementById("bookClipImg").src = stop.image;
+        document.getElementById("bookClipCaption").innerText = stop.imageCaption;
+        document.getElementById("speechText").innerHTML = stop.speech;
+
+        const formulaBox = document.getElementById("formulaBox");
+        const latexContainer = document.getElementById("latexFormula");
+        if (stop.latex || stop.htmlFormula) {
+          formulaBox.style.display = "block";
+          let rendered = false;
+          if (window.katex && stop.latex) {
+            try {
+              katex.render(stop.latex, latexContainer, { displayMode: true, throwOnError: false });
+              rendered = true;
+            } catch(e) {
+              console.warn("KaTeX render error, using fallback:", e);
+            }
+          }
+          if (!rendered) {
+            latexContainer.innerHTML = `<div class="semantic-math-box">${stop.htmlFormula || stop.latex}</div>`;
+          }
+        } else {
+          formulaBox.style.display = "none";
+        }
+      }
+    }
+
+    // Función global de renderizado KaTeX con fallback seguro
+    function triggerMathRendering() {
+      if (window.renderMathInElement) {
+        try {
+          renderMathInElement(document.body, {
+            delimiters: [
+              { left: "$$", right: "$$", display: true },
+              { left: "$", right: "$", display: false },
+              { left: "\\[", right: "\\]", display: true },
+              { left: "\\(", right: "\\)", display: false }
+            ],
+            throwOnError: false
+          });
+        } catch (e) {
+          console.warn("KaTeX auto-render note:", e);
+        }
+      }
+    }
+    window.triggerMathRendering = triggerMathRendering;
+
+    // Inicializar aplicación al cargar DOM
+    window.addEventListener("DOMContentLoaded", () => {
+      window.preziApp = new PreziEngine();
+      triggerMathRendering();
+    });
+    window.addEventListener("load", triggerMathRendering);
+  </script>
+</body>
+</html>
