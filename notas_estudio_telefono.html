@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Notas Rápidas FIM — Polímeros, Procesos y Reciclaje</title>
+  <title>Notas Rápidas FIM — Polímeros, Síntesis, Procesos y Reciclaje</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -23,7 +23,7 @@
       color: var(--text);
       font-family: var(--font);
       line-height: 1.5;
-      padding: 12px 14px 60px;
+      padding: 12px 14px 70px;
       font-size: 15px;
     }
     header {
@@ -86,12 +86,13 @@
       background: #1e293b;
       border: 1px solid #3b82f6;
       border-radius: 10px;
-      padding: 12px 14px;
-      margin-bottom: 12px;
+      padding: 14px 15px;
+      margin-bottom: 14px;
     }
-    .question { font-weight: 700; color: var(--accent); font-size: 13.5px; margin-bottom: 6px; }
-    .answer { font-size: 13px; color: #e2e8f0; line-height: 1.45; }
+    .question { font-weight: 700; color: var(--accent); font-size: 14px; margin-bottom: 8px; line-height: 1.4; }
+    .answer { font-size: 13px; color: #e2e8f0; line-height: 1.5; }
     .answer b { color: #f8fafc; }
+    .answer p { margin-bottom: 6px; }
 
     .sticky-nav {
       position: fixed;
@@ -109,10 +110,10 @@
     .sticky-nav a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 600;
       text-align: center;
-      padding: 4px 6px;
+      padding: 4px 5px;
       border-radius: 6px;
     }
     .sticky-nav a:hover, .sticky-nav a.active {
@@ -127,7 +128,7 @@
   <header>
     <div class="badge-ug">UGTO · MAESTRÍA EN CIENCIAS APLICADAS</div>
     <h1>Notas Rápidas de Defensa: Polímeros</h1>
-    <div class="meta">Guía de bolsillo para contestar preguntas sin meterte en termodinámica compleja.</div>
+    <div class="meta">Guía de bolsillo: Síntesis, Cinética Radicalaria, 10 Polímeros, Procesos y Reciclaje.</div>
   </header>
 
   <!-- BOTÓN DE PÁNICO: CÓMO ESQUIVAR LA TERMODINÁMICA -->
@@ -139,8 +140,57 @@
     </p>
   </div>
 
-  <!-- SECCIÓN 1: LAS 4 ESTRUCTURAS -->
-  <div class="section-title" id="sec-estructuras">🧱 1. Las 4 Estructuras Macromoleculares</div>
+  <!-- SECCIÓN 0: PREGUNTA CLAVE DE POLIMERIZACIÓN RADICALARIA -->
+  <div class="section-title" id="sec-pregunta-oro">🔥 Pregunta Clave: ¿Por qué hay Polimerización y no se unen 2 Radicales?</div>
+
+  <div class="qa-box" style="border-color: var(--accent-gold); background: rgba(30, 41, 59, 0.9);">
+    <div class="question" style="color: var(--accent-gold);">
+      ❓ "¿Por qué ocurre la polimerización entre monómeros después de que un radical la inicia y no se unen 2 radicales simplemente?"
+    </div>
+    <div class="answer">
+      <p><b>Tu respuesta maestra (3 puntos clave):</b></p>
+      <p><b>1. Razón Estadística y Ley de Acción de Masas ([M] ≫ [R•]):</b><br>
+      En el reactor, la concentración de monómero neutro es de <b>1 a 10 mol/L</b>, mientras que la concentración de radicales libres activos es de apenas <b>10⁻⁷ a 10⁻⁹ mol/L</b>. Hay entre <b>10 millones y 100 millones de monómeros por cada radical</b>. Físicamente, el radical está nadando en un mar de monómeros; la probabilidad estadística de que dos radicales se crucen es ínfima comparada con chocar contra un monómero.</p>
+      <p><b>2. El Radical NO se destruye al reaccionar (Propagación):</b><br>
+      Al atacar el doble enlace C=C de un monómero, el radical forma un enlace simple sigma, pero <b>el electrón desapareado se transfiere intacto al carbono del extremo</b>: <code>R• + CH2=CHX ⟶ R-CH2-CHX•</code>. El centro activo se conserva y sigue atacando miles de monómeros en milisegundos (10⁻³ s).</p>
+      <p><b>3. ¿Cuándo sí se unen 2 radicales? ¡Esa es la TERMINACIÓN!:</b><br>
+      Sí ocurre la unión de 2 radicales, pero es el evento final que apaga la cadena. Ocurre por <i>Combinación/Acoplamiento</i> (ambos radicales se unen formando un solo enlace) o por <i>Desproporción</i> (uno le roba un H al otro). Como la velocidad de terminación depende del cuadrado de los radicales (Rt ∝ [R•]²), es miles de veces más lenta que la propagación.</p>
+    </div>
+  </div>
+
+  <!-- SECCIÓN 1: SÍNTESIS QUÍMICA -->
+  <div class="section-title" id="sec-sintesis">🔬 1. Síntesis Química: Adición vs. Condensación</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Polimerización por Adición (Crecimiento en Cadena)</div>
+      <span class="tag tag-tp">Sin Subproductos</span>
+    </div>
+    <ul>
+      <li><b>Monómeros:</b> Alquenos vinílicos con dobles enlaces C=C (etileno, propileno, estireno).</li>
+      <li><b>Mecanismo:</b> Requiere iniciador (radical, catión, anión). El centro activo se transfiere secuencialmente.</li>
+      <li><b>Subproductos:</b> Cero. Masa molecular del polímero = múltiplo exacto del monómero.</li>
+      <li><b>Cinética:</b> Cadenas gigantes de alto peso molecular formadas en milisegundos.</li>
+      <li><b>Ejemplos:</b> Polietileno (HDPE, LDPE), Polipropileno (PP), PVC, Poliestireno (PS).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Polimerización por Condensación (Crecimiento por Pasos)</div>
+      <span class="tag tag-tf">Libera Molécula Pequeña</span>
+    </div>
+    <ul>
+      <li><b>Monómeros:</b> Moléculas bifuncionales/polifuncionales con grupos -COOH, -OH, -NH2.</li>
+      <li><b>Mecanismo:</b> Reacciones orgánicas paso a paso (esterificación, amidación).</li>
+      <li><b>Subproductos:</b> Se desprende agua (H2O), HCl o alcohol.</li>
+      <li><b>Cinética (Carothers):</b> Crecimiento lento. Para alcanzar DP ≥ 100 se necesita conversión p ≥ 99%, requiriendo alto vacío para evaporar el agua y evitar hidrólisis.</li>
+      <li><b>Ejemplos:</b> PET (poliéster), Nylon (poliamida), Baquelita (fenólica), Poliéster Insaturado.</li>
+    </ul>
+  </div>
+
+  <!-- SECCIÓN 2: LAS 4 ESTRUCTURAS -->
+  <div class="section-title" id="sec-estructuras">🧱 2. Las 4 Estructuras Macromoleculares</div>
 
   <div class="card">
     <div class="card-header">
@@ -149,7 +199,7 @@
     </div>
     <p>Cadenas rectas de extremo a extremo sin ramificaciones.</p>
     <ul>
-      <li><b>Unión entre cadenas:</b> Solo fuerzas secundarias débiles (Van der Waals o puentes de H).</li>
+      <li><b>Unión:</b> Solo fuerzas de Van der Waals débiles o puentes de H.</li>
       <li><b>Propiedades:</b> Empaquetamiento denso, alta cristalinidad, alta rigidez, funde con calor.</li>
       <li><b>Ejemplos:</b> HDPE (PEAD), PVC, PET.</li>
     </ul>
@@ -161,13 +211,13 @@
       <div class="card-title">2. Ramificado</div>
       <span class="tag tag-tp">Termoplástico</span>
     </div>
-    <p>Cadena principal de la que nacen ramas laterales secundarias.</p>
+    <p>Cadena principal con ramas secundarias.</p>
     <ul>
-      <li><b>Unión entre cadenas:</b> Fuerzas secundarias débiles, pero cadenas más separadas.</li>
+      <li><b>Unión:</b> Fuerzas secundarias débiles con cadenas más separadas.</li>
       <li><b>Propiedades:</b> Menor densidad, baja cristalinidad, menor punto de fusión, gran flexibilidad.</li>
       <li><b>Ejemplos:</b> LDPE (PEBD, bolsas de súper).</li>
     </ul>
-    <div class="analogia">💡 Analogía: Ramas de árboles o zarzas. No se pueden juntar apretadas.</div>
+    <div class="analogia">💡 Analogía: Ramas de pino o zarzas. No se pueden apretar juntas.</div>
   </div>
 
   <div class="card">
@@ -175,13 +225,12 @@
       <div class="card-title">3. Entrecruzado (Crosslinked)</div>
       <span class="tag tag-tp">Elastómero / Red Ligera</span>
     </div>
-    <p>Cadenas lineales unidas transversalmente por enlaces covalentes periódicos.</p>
+    <p>Cadenas lineales unidas transversalmente por enlaces covalentes periódicos (puentes -S-S-).</p>
     <ul>
-      <li><b>Unión entre cadenas:</b> Enlaces químicos fuertes transversales (puentes de azufre -S-S-).</li>
-      <li><b>Propiedades:</b> Gran deformación elástica (>200-800%), memoria elástica, no funde.</li>
+      <li><b>Propiedades:</b> Deformación elástica masiva (>200-800%), memoria elástica, no funde.</li>
       <li><b>Ejemplos:</b> Caucho vulcanizado de llantas.</li>
     </ul>
-    <div class="analogia">💡 Analogía: Una escalera de cuerda o resortes entre cuerdas.</div>
+    <div class="analogia">💡 Analogía: Escalera de cuerda o resortes entre cuerdas.</div>
   </div>
 
   <div class="card">
@@ -189,213 +238,63 @@
       <div class="card-title">4. De Red Tridimensional</div>
       <span class="tag tag-tf">Termofijo</span>
     </div>
-    <p>Monómeros trifuncionales o polifuncionales unidos en red 3D continua.</p>
+    <p>Monómeros polifuncionales unidos en red 3D continua.</p>
     <ul>
       <li><b>Unión:</b> Toda la pieza es una única macromolécula unida por enlaces covalentes.</li>
       <li><b>Propiedades:</b> Infusible, insoluble, altísimo módulo, nula fluencia, frágil.</li>
       <li><b>Ejemplos:</b> Resinas epoxi, Baquelita, Poliuretano rígido, Poliéster insaturado.</li>
     </ul>
-    <div class="analogia">💡 Analogía: Malla metálica electrosoldada o jaula. No se desarma con calor.</div>
+    <div class="analogia">💡 Analogía: Malla metálica electrosoldada. No se desarma con calor.</div>
   </div>
 
-  <!-- SECCIÓN 2: LOS 10 POLÍMEROS -->
-  <div class="section-title" id="sec-polimeros">📦 2. Los 10 Polímeros Más Usados</div>
+  <!-- SECCIÓN 3: LOS 10 POLÍMEROS -->
+  <div class="section-title" id="sec-polimeros">📦 3. Los 10 Polímeros Más Usados</div>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">1. PET (Tereftalato de polietileno)</div>
-      <span class="tag tag-spi">SPI #1</span>
-    </div>
-    <p>Termoplástico lineal por condensación. Transparente, rígido, excelente barrera al CO2. <b>Uso:</b> Botellas de refresco, fibras de ropa.</p>
-  </div>
+  <div class="card"><div class="card-header"><div class="card-title">1. PET (Tereftalato de polietileno)</div><span class="tag tag-spi">SPI #1</span></div><p>Condensación, lineal. Transparente, rígido, barrera al CO2. <b>Uso:</b> Botellas de refresco, ropa polar.</p></div>
+  <div class="card"><div class="card-header"><div class="card-title">2. HDPE (Polietileno Alta Densidad)</div><span class="tag tag-spi">SPI #2</span></div><p>Adición, lineal. Denso, rígido, resistente químico. <b>Uso:</b> Galones de leche, tubos de drenaje.</p></div>
+  <div class="card"><div class="card-header"><div class="card-title">3. PVC (Policloruro de vinilo)</div><span class="tag tag-spi">SPI #3</span></div><p>Adición, lineal con Cl. Autoextinguible, duradero al sol. <b>Uso:</b> Tubería hidráulica, ventanas, cables.</p></div>
+  <div class="card"><div class="card-header"><div class="card-title">4. LDPE (Polietileno Baja Densidad)</div><span class="tag tag-spi">SPI #4</span></div><p>Adición, ramificado. Muy flexible, tenaz, translúcido. <b>Uso:</b> Bolsas de plástico, películas stretch.</p></div>
+  <div class="card"><div class="card-header"><div class="card-title">5. PP (Polipropileno)</div><span class="tag tag-spi">SPI #5</span></div><p>Adición, lineal con metilos. El más ligero (~0.90 g/cm³), fatiga infinita. <b>Uso:</b> Bisagras vivas, parachoques.</p></div>
+  <div class="card"><div class="card-header"><div class="card-title">6. PS (Poliestireno)</div><span class="tag tag-spi">SPI #6</span></div><p>Adición, lineal con fenilo. Vítreo, frágil. Espumado es unicel. <b>Uso:</b> Vasos desechables, hieleras.</p></div>
+  <div class="card"><div class="card-header"><div class="card-title">7. Resinas Epóxicas (Epoxi)</div><span class="tag tag-tf">Termofijo (Red 3D)</span></div><p>Anillos oxirano + amina. Cero contracción, adhesión brutal. <b>Uso:</b> Pegamentos aeronáuticos, chips.</p></div>
+  <div class="card"><div class="card-header"><div class="card-title">8. Fenol-Formaldehído (Baquelita)</div><span class="tag tag-tf">Termofijo (Red 3D)</span></div><p>Condensación. Dureza y resistencia eléctrica/calor extrema. <b>Uso:</b> Mangos de sartenes, disyuntores.</p></div>
+  <div class="card"><div class="card-header"><div class="card-title">9. Poliuretano Reticulado (PU)</div><span class="tag tag-tf">Termofijo (Red 3D)</span></div><p>Isocianato + poliol. Espumas de celda cerrada. <b>Uso:</b> Aislamiento térmico de refrigeradores, asientos.</p></div>
+  <div class="card"><div class="card-header"><div class="card-title">10. Poliéster Insaturado (UPR)</div><span class="tag tag-tf">Termofijo (Red 3D)</span></div><p>Poliéster lineal + estireno. <b>Uso:</b> Plástico reforzado con fibra de vidrio (lanchas, tinacos).</p></div>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">2. HDPE (Polietileno Alta Densidad)</div>
-      <span class="tag tag-spi">SPI #2</span>
-    </div>
-    <p>Termoplástico lineal por adición. Denso, rígido, resistente químico. <b>Uso:</b> Galones de leche, tuberías de drenaje y agua.</p>
-  </div>
+  <!-- SECCIÓN 4: PROCESOS INDUSTRIALES -->
+  <div class="section-title" id="sec-procesos">⚙️ 4. Procesos de Conformado Industrial</div>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">3. PVC (Policloruro de vinilo)</div>
-      <span class="tag tag-spi">SPI #3</span>
-    </div>
-    <p>Termoplástico lineal con Cl. Autoextinguible, duradero al sol. Rígido o flexible. <b>Uso:</b> Tubería hidráulica, ventanas, cables.</p>
-  </div>
+  <div class="card"><div class="card-title">1. Extrusión (Tornillo continuo)</div><p>Husillo continuo empuja plástico fundido por dado abierto. <b>Productos:</b> Tubos, perfiles, cables, láminas.</p></div>
+  <div class="card"><div class="card-title">2. Moldeo por Inyección (Pistón a molde frío)</div><p>Inyecta a alta presión (>1000 bar) en molde frío. Segundos por pieza. <b>Productos:</b> Tapas, carcasas, jeringas.</p></div>
+  <div class="card"><div class="card-title">3. Moldeo por Soplado (Blow Molding)</div><p>Tubo hueco caliente (parisón) inflado con aire a presión dentro del molde. <b>Productos:</b> Botellas de PET y HDPE.</p></div>
+  <div class="card"><div class="card-title">4. Termoformado (Vacío sobre lámina caliente)</div><p>Lámina caliente succionada con vacío contra una horma. <b>Productos:</b> Vasos desechables, charolas, blisters.</p></div>
+  <div class="card"><div class="card-title">5. Rotomoldeo (Molde girando en horno)</div><p>Polvo plástico en molde que gira biaxialmente en horno. <b>Productos:</b> Tinacos gigantes (Rotoplas), kayaks.</p></div>
+  <div class="card"><div class="card-title">6. Moldeo por Compresión / Transferencia (Termofijos)</div><p>Polvo o preforma en molde caliente bajo presión hidráulica. <b>Dato clave:</b> <i>¡La pieza se desmolda caliente!</i> Ya curó.</p></div>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">4. LDPE (Polietileno Baja Densidad)</div>
-      <span class="tag tag-spi">SPI #4</span>
-    </div>
-    <p>Termoplástico ramificado. Muy flexible, tenaz, translúcido. <b>Uso:</b> Bolsas de plástico, películas para emplayar (stretch film).</p>
-  </div>
+  <!-- SECCIÓN 5: RECICLAJE -->
+  <div class="section-title" id="sec-reciclaje">♻️ 5. Los 7 Métodos de Reciclaje (ISO / ASTM)</div>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">5. PP (Polipropileno)</div>
-      <span class="tag tag-spi">SPI #5</span>
-    </div>
-    <p>Termoplástico lineal con metilos. El más ligero (~0.90 g/cm³), resiste fatiga infinita. <b>Uso:</b> Bisagras integradas, parachoques, jeringas.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">6. PS (Poliestireno)</div>
-      <span class="tag tag-spi">SPI #6</span>
-    </div>
-    <p>Termoplástico lineal con anillos de benceno. Vítreo, frágil, rígido. Espumado con gas es unicel (EPS). <b>Uso:</b> Vasos desechables, hieleras.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">7. Resinas Epóxicas (Epoxi)</div>
-      <span class="tag tag-tf">Termofijo (Red 3D)</span>
-    </div>
-    <p>Anillos oxirano + poliamina. Cero contracción al curar, adhesión brutal. <b>Uso:</b> Pegamentos aeronáuticos, palas de turbinas eólicas, chips.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">8. Fenol-Formaldehído (Baquelita)</div>
-      <span class="tag tag-tf">Termofijo (Red 3D)</span>
-    </div>
-    <p>Histórico (1907). Altísima densidad de red. Dureza y resistencia eléctrica/calor extrema. <b>Uso:</b> Mangos de sartenes, disyuntores de luz.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">9. Poliuretano Reticulado (PU)</div>
-      <span class="tag tag-tf">Termofijo (Red 3D)</span>
-    </div>
-    <p>Polioisocianato + poliol. Espumas de celda cerrada. <b>Uso:</b> Aislamiento térmico de refrigeradores, espumas de asientos, suelas.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">10. Poliéster Insaturado (UPR)</div>
-      <span class="tag tag-tf">Termofijo (Red 3D)</span>
-    </div>
-    <p>Poliéster lineal disuelto en estireno que cura a temperatura ambiente. <b>Uso:</b> Fibra de vidrio (PRFV) en cascos de lanchas y tinacos.</p>
-  </div>
-
-  <!-- SECCIÓN 3: PROCESOS INDUSTRIALES -->
-  <div class="section-title" id="sec-procesos">⚙️ 3. Procesos de Conformado Industrial</div>
-
-  <div class="card">
-    <div class="card-title">1. Extrusión (Tornillo continuo)</div>
-    <p>El tornillo helicoidal funde el plástico y lo empuja por un dado abierto constante. Al salir se enfría con agua.</p>
-    <p><b>Productos:</b> Tubos, perfiles de ventana, cables forrados, láminas continuas.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">2. Moldeo por Inyección (Pistón a molde frío)</div>
-    <p>Inyecta plástico fundido a altísima presión (>1000 bar) en molde metálico frío. Se abre y expulsa la pieza en segundos.</p>
-    <p><b>Productos:</b> Tapas, carcasas de computadoras, piezas de autos, jeringas.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">3. Moldeo por Soplado (Blow Molding)</div>
-    <p>Extruye un tubo caliente hueco (parisón) y le mete aire a presión como globo dentro del molde cerrado.</p>
-    <p><b>Productos:</b> Botellas de refresco (PET), galones de leche (HDPE), tanques de gasolina.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">4. Termoformado (Vacío sobre lámina caliente)</div>
-    <p>Calienta una lámina de plástico hasta que queda flexible y la succiona con vacío contra una horma.</p>
-    <p><b>Productos:</b> Vasos desechables, charolas de comida, empaques blister.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">5. Rotomoldeo (Molde girando en horno)</div>
-    <p>Polvo plástico dentro de un molde que gira en dos ejes dentro de un horno. La fuerza y gravedad cubren las paredes.</p>
-    <p><b>Productos:</b> Tinacos de agua (Rotoplas), kayaks, contenedores gigantes sin costuras.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">6. Moldeo por Compresión / Transferencia (Para Termofijos)</div>
-    <p>Pone la resina en molde caliente, cierra con prensa hidráulica y deja que cure químicamente la red.</p>
-    <p><b>Dato clave que impresiona al profesor:</b> <i>¡La pieza se desmolda caliente!</i> No necesita enfriar porque ya curó y es dimensionalmente estable.</p>
-  </div>
-
-  <!-- SECCIÓN 4: RECICLAJE -->
-  <div class="section-title" id="sec-reciclaje">♻️ 4. Los 7 Métodos de Reciclaje (ISO / ASTM)</div>
-
-  <div class="card">
-    <div class="card-title">1. Primario (Closed-loop / Re-extrusión)</div>
-    <p>Retazos limpios de la misma fábrica molidos y vueltos a mezclar con resina virgen sin perder calidad.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">2. Secundario (Mecánico Post-Consumo)</div>
-    <p>Plásticos de la basura: Clasificación ➔ Lavado ➔ Molienda ➔ Extrusión ➔ Pellets. Sufre ligera degradación (downcycling).</p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">3. Terciario Químico (Despolimerización / Solvólisis)</div>
-    <p>Reacción química (glicólisis/hidrólisis en PET o Nylon) para romper los enlaces y volver a los monómeros puros originales.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">4. Terciario Térmico (Pirólisis / Gasificación)</div>
-    <p>Calentar plásticos mixtos a >450 °C sin oxígeno. Rompe las moléculas en crudo sintético (aceite de pirólisis) o gas combustible.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">5. Terciario por Disolución Física (Solvent-based)</div>
-    <p>Disuelve selectivamente un polímero de un empaque multicapa con un solvente sin romper cadenas químicas (CreaSolv).</p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">6. Cuaternario (Valorización Energética)</div>
-    <p>Incineración controlada con recuperación de energía. Los plásticos tienen poder calorífico similar al diésel (~40 MJ/kg).</p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">7. Biológico / Orgánico (Compostaje)</div>
-    <p>Degradación bacteriana en plantas de compost industrial para biopolímeros certificados (PLA, almidón).</p>
-  </div>
+  <div class="card"><div class="card-title">1. Primario (Closed-loop / Re-extrusión)</div><p>Retazos limpios de la misma fábrica molidos y mezclados con resina virgen sin pérdida de calidad.</p></div>
+  <div class="card"><div class="card-title">2. Secundario (Mecánico Post-Consumo)</div><p>Plásticos de la basura: Lavado ➔ Molienda ➔ Extrusión ➔ Pellets. Sufre downcycling.</p></div>
+  <div class="card"><div class="card-title">3. Terciario Químico (Despolimerización / Solvólisis)</div><p>Glicólisis/hidrólisis en PET para romper enlaces y volver a los monómeros puros (food-grade).</p></div>
+  <div class="card"><div class="card-title">4. Terciario Térmico (Pirólisis / Gasificación)</div><p>Calentar a >450 °C sin oxígeno para convertir plásticos en aceite de pirólisis o gas combustible.</p></div>
+  <div class="card"><div class="card-title">5. Terciario por Disolución Física (Solvent-based)</div><p>Disuelve selectivamente un polímero de multicapas con solventes sin romper cadenas (CreaSolv).</p></div>
+  <div class="card"><div class="card-title">6. Cuaternario (Valorización Energética)</div><p>Incineración controlada con recuperación de vapor y electricidad. Alto poder calorífico (~40 MJ/kg).</p></div>
+  <div class="card"><div class="card-title">7. Biológico / Orgánico (Compostaje)</div><p>Degradación microbiana en plantas de compost para biopolímeros certificados (PLA).</p></div>
 
   <div class="panic-box" style="margin-top: 14px;">
     <div class="panic-title">❓ ¿Y cómo se reciclan los Termofijos?</div>
-    <p>
-      <b>No se pueden fundir.</b> Sus opciones son: 1) Molerlos como polvo de relleno (carga inerte) en asfaltos o concretos; 2) Pirólisis térmica para recuperar fibra de carbono; o 3) Quimiólisis selectiva de enlaces de la resina.
-    </p>
-  </div>
-
-  <!-- SECCIÓN 5: PREGUNTAS TÍPICAS DEL PROFESOR -->
-  <div class="section-title" id="sec-preguntas">🎯 5. Respuestas Listas a Preguntas Típicas</div>
-
-  <div class="qa-box">
-    <div class="question">P1: ¿Por qué el HDPE es rígido y opaco, y el LDPE es flexible y claro si ambos son polietileno?</div>
-    <div class="answer">
-      <b>Respuesta:</b> "Por la arquitectura molecular. El HDPE es lineal, lo que permite que las cadenas se empaqueten muy apretadas formando hasta 70% de cristales; esos cristales refractan la luz (opaco) y elevan el módulo elástico (rígido). El LDPE tiene ramificaciones que estorban el empaquetamiento, dejando más volumen libre amorfo (flexible y transparente)."
-    </div>
-  </div>
-
-  <div class="qa-box">
-    <div class="question">P2: ¿Por qué un termoestable no tiene temperatura de fusión (Tm)?</div>
-    <div class="answer">
-      <b>Respuesta:</b> "Porque la temperatura de fusión requiere que las cadenas individuales se separen y deslicen. En un termoestable no hay cadenas individuales: toda la pieza es una red gigante unida por enlaces covalentes continuos. Al calentarlo, antes de lograr separar los enlaces covalentes, el material alcanza su temperatura de descomposición (Td) y se quema o piroliza."
-    </div>
-  </div>
-
-  <div class="qa-box">
-    <div class="question">P3: ¿Por qué en moldeo por compresión de termoestables la pieza se saca caliente?</div>
-    <div class="answer">
-      <b>Respuesta:</b> "Porque el termoestable solidifica por una reacción química irreversible (curado) dentro del molde caliente. Una vez que los enlaces covalentes se formaron, la pieza ya es rígida y dimensionalmente estable a esa temperatura, por lo que no es necesario enfriar el molde para expulsarla, a diferencia de los termoplásticos."
-    </div>
+    <p><b>No se pueden fundir.</b> Sus opciones son: 1) Molerlos como polvo de relleno inerte en asfalto/concreto; 2) Pirólisis para recuperar fibra de carbono; o 3) Quimiólisis selectiva de la resina.</p>
   </div>
 
   <!-- BARRA DE NAVEGACIÓN INFERIOR PARA TELÉFONO -->
   <div class="sticky-nav">
+    <a href="#sec-pregunta-oro">Pregunta Oro</a>
+    <a href="#sec-sintesis">Síntesis</a>
     <a href="#sec-estructuras">Estructura</a>
     <a href="#sec-polimeros">10 Polímeros</a>
     <a href="#sec-procesos">Procesos</a>
     <a href="#sec-reciclaje">Reciclaje</a>
-    <a href="#sec-preguntas">Preguntas</a>
   </div>
 
 </body>

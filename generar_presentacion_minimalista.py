@@ -11,15 +11,17 @@ Contenido:
   2. Los 10 polímeros más utilizados (Termoplásticos y Termofijos).
   3. Detalle de 6 Termoplásticos comunes y usos reales.
   4. Detalle de 4 Termofijos comunes y usos reales.
-  5. Las 4 Estructuras Moleculares (Lineal, Ramificado, Entrecruzado, Red).
-  6. Clasificación de los 10 polímeros según su arquitectura molecular.
-  7. Relación estructura macromolecular vs. propiedades mecánicas.
-  8. Procesos Industriales I: Extrusión y Moldeo por Inyección.
-  9. Procesos Industriales II: Soplado, Termoformado y Rotomoldeo.
-  10. Procesos Industriales III: Compresión y Transferencia (Termofijos).
-  11. Métodos de Reciclaje I: Las 7 Tecnologías / Rutas Industriales.
-  12. Métodos de Reciclaje II: Los 7 Códigos SPI/ASTM D7611 y Reto de Termofijos.
-  13. Resumen y Criterios de Selección en Ingeniería.
+  5. Clasificación por Síntesis Química: Adición (Cadena) vs. Condensación (Pasos).
+  6. Mecanismo Radicalario: ¿Por qué ocurre polimerización y no solo unión de 2 radicales?
+  7. Las 4 Estructuras Moleculares (Lineal, Ramificado, Entrecruzado, Red).
+  8. Clasificación de los 10 polímeros según su arquitectura molecular.
+  9. Relación estructura macromolecular vs. propiedades mecánicas.
+  10. Procesos Industriales I: Extrusión y Moldeo por Inyección.
+  11. Procesos Industriales II: Soplado, Termoformado y Rotomoldeo.
+  12. Procesos Industriales III: Compresión y Transferencia (Termofijos).
+  13. Métodos de Reciclaje I: Las 7 Tecnologías / Rutas Industriales (ISO / ASTM).
+  14. Métodos de Reciclaje II: Los 7 Códigos SPI/ASTM D7611 y Reto de Termofijos.
+  15. Resumen y Criterios de Selección en Ingeniería.
 Notas al pie en cada diapositiva con citas exactas de Callister, Askeland y Shackelford.
 """
 
@@ -58,7 +60,7 @@ def aplicar_fondo_blanco(slide):
     return bg
 
 
-def agregar_encabezado(slide, num_slide, titulo, subtitulo, total_slides=13):
+def agregar_encabezado(slide, num_slide, titulo, subtitulo, total_slides=15):
     # Número de diapositiva discreto arriba a la derecha
     num_box = slide.shapes.add_textbox(Inches(11.5), Inches(0.4), Inches(1.2), Inches(0.3))
     tf_num = num_box.text_frame
@@ -137,18 +139,18 @@ def crear_caja_texto(slide, left, top, width, height, titulo, puntos, fondo_resa
         p_t = tf.paragraphs[0]
         p_t.text = titulo
         p_t.font.name = FONT_HEADING
-        p_t.font.size = Pt(13)
+        p_t.font.size = Pt(12.5)
         p_t.font.bold = True
         p_t.font.color.rgb = COLOR_ACCENT if fondo_resaltado else COLOR_TITLE
-        p_t.space_after = Pt(6)
+        p_t.space_after = Pt(5)
 
     for i, punto in enumerate(puntos):
         p = tf.add_paragraph() if (titulo or i > 0) else tf.paragraphs[0]
-        p.text = f"•  {punto}"
+        p.text = f"•  {punto}" if punto and not punto.startswith("•") and not punto.endswith(":") else punto
         p.font.name = FONT_MAIN
-        p.font.size = Pt(10.5)
+        p.font.size = Pt(10)
         p.font.color.rgb = COLOR_TEXT
-        p.space_after = Pt(4)
+        p.space_after = Pt(3)
 
 
 def formatear_celda_tabla(cell, texto, es_header=False, bold=False, align=PP_ALIGN.LEFT, font_size=Pt(9.5)):
@@ -174,6 +176,7 @@ def crear_presentacion_minimalista(output_filepath):
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
     blank_layout = prs.slide_layouts[6]
+    TOTAL_SLIDES = 15
 
     # =========================================================================
     # DIAPOSITIVA 01: PORTADA SOBRIA Y ACADÉMICA
@@ -181,7 +184,6 @@ def crear_presentacion_minimalista(output_filepath):
     s1 = prs.slides.add_slide(blank_layout)
     aplicar_fondo_blanco(s1)
 
-    # Marco superior institucional sobrio
     inst_box = s1.shapes.add_textbox(Inches(1.2), Inches(1.5), Inches(11.0), Inches(0.5))
     tf_inst = inst_box.text_frame
     p_inst = tf_inst.paragraphs[0]
@@ -191,18 +193,16 @@ def crear_presentacion_minimalista(output_filepath):
     p_inst.font.bold = True
     p_inst.font.color.rgb = COLOR_ACCENT
 
-    # Título
     tit_box = s1.shapes.add_textbox(Inches(1.2), Inches(2.1), Inches(11.0), Inches(1.4))
     tf_tit = tit_box.text_frame
     tf_tit.word_wrap = True
     p_tit = tf_tit.paragraphs[0]
-    p_tit.text = "Polímeros Industriales: Clasificación Estructural,\nProcesamiento y Tecnologías de Reciclaje"
+    p_tit.text = "Polímeros Industriales: Clasificación Química y Estructural,\nProcesamiento y Tecnologías de Reciclaje"
     p_tit.font.name = FONT_HEADING
     p_tit.font.size = Pt(28)
     p_tit.font.bold = True
     p_tit.font.color.rgb = COLOR_TITLE
 
-    # Subtítulo
     sub_box = s1.shapes.add_textbox(Inches(1.2), Inches(3.7), Inches(11.0), Inches(0.5))
     tf_sub = sub_box.text_frame
     p_sub = tf_sub.paragraphs[0]
@@ -211,13 +211,11 @@ def crear_presentacion_minimalista(output_filepath):
     p_sub.font.size = Pt(14)
     p_sub.font.color.rgb = COLOR_SUBTITLE
 
-    # Línea sutil
     l_port = s1.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(1.2), Inches(4.35), Inches(10.9), Inches(0.02))
     l_port.fill.solid()
     l_port.fill.fore_color.rgb = COLOR_LINE
     l_port.line.fill.background()
 
-    # Datos Alumno y Docente
     dat_box = s1.shapes.add_textbox(Inches(1.2), Inches(4.6), Inches(11.0), Inches(1.5))
     tf_dat = dat_box.text_frame
     
@@ -251,9 +249,8 @@ def crear_presentacion_minimalista(output_filepath):
     s2 = prs.slides.add_slide(blank_layout)
     aplicar_fondo_blanco(s2)
     agregar_encabezado(s2, 2, "Los 10 Polímeros Más Utilizados en la Industria",
-                       "División de los materiales plásticos predominantes entre Termoplásticos (Commodities) y Termofijos")
+                       "División de los materiales plásticos predominantes entre Termoplásticos (Commodities) y Termofijos", TOTAL_SLIDES)
 
-    # Tabla resumen de los 10 polímeros
     rows, cols = 11, 5
     tbl_shape = s2.shapes.add_table(rows, cols, Inches(0.8), Inches(1.6), Inches(11.733), Inches(5.0))
     tbl = tbl_shape.table
@@ -301,12 +298,11 @@ def crear_presentacion_minimalista(output_filepath):
     s3 = prs.slides.add_slide(blank_layout)
     aplicar_fondo_blanco(s3)
     agregar_encabezado(s3, 3, "Termoplásticos Predominantes: Características y Usos Reales",
-                       "Polímeros que funden al calentarse y solidifican al enfriarse reversiblemente (enlaces secundarios débiles entre cadenas)")
+                       "Polímeros que funden al calentarse y solidifican al enfriarse reversiblemente (enlaces secundarios débiles entre cadenas)", TOTAL_SLIDES)
 
     ancho_card = Inches(3.75)
     alto_card = Inches(2.45)
     
-    # Fila 1: PET, HDPE, PVC
     crear_caja_texto(s3, Inches(0.8), Inches(1.6), ancho_card, alto_card,
                      "1. PET (Tereftalato de Polietileno)",
                      ["Alta transparencia y rigidez mecánica.",
@@ -328,7 +324,6 @@ def crear_presentacion_minimalista(output_filepath):
                       "Resistente a la intemperie y envejecimiento biológico.",
                       "Usos: Conducción sanitaria, aislamiento de conductores eléctricos."])
 
-    # Fila 2: LDPE, PP, PS
     crear_caja_texto(s3, Inches(0.8), Inches(4.2), ancho_card, alto_card,
                      "4. LDPE (Polietileno Baja Densidad)",
                      ["Cadenas altamente ramificadas (ramales cortos y largos).",
@@ -358,7 +353,7 @@ def crear_presentacion_minimalista(output_filepath):
     s4 = prs.slides.add_slide(blank_layout)
     aplicar_fondo_blanco(s4)
     agregar_encabezado(s4, 4, "Termofijos Predominantes: Características y Usos Reales",
-                       "Polímeros con enlaces covalentes cruzados permanentes: infusibles e insolubles, se degradan antes de fundir")
+                       "Polímeros con enlaces covalentes cruzados permanentes: infusibles e insolubles, se degradan antes de fundir", TOTAL_SLIDES)
 
     w_card = Inches(5.7)
     h_card = Inches(2.45)
@@ -369,8 +364,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "Prácticamente nula contracción volumétrica durante el curado químico.",
                       "Adhesión y resistencia mecánica excepcionales a tracción y fatiga.",
                       "Estabilidad térmica y resistencia a reactivos químicos agresivos.",
-                      "Usos reales: Adhesivos estructurales en aviación, matrices para fibra de carbono en palas eólicas y encapsulado de componentes electrónicos."],
-                     fondo_resaltado=False)
+                      "Usos reales: Adhesivos estructurales en aviación, matrices para fibra de carbono en palas eólicas y encapsulado de componentes electrónicos."])
 
     crear_caja_texto(s4, Inches(6.833), Inches(1.6), w_card, h_card,
                      "8. Fenol-Formaldehído (Baquelita)",
@@ -378,8 +372,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "Reacción de condensación con altísima densidad de entrecruzamiento de red.",
                       "Rigidez sobresaliente, gran dureza superficial y estabilidad dimensional.",
                       "Incombustible y excelente aislante eléctrico y térmico.",
-                      "Usos reales: Mangos para ollas y sartenes, disyuntores eléctricos, discos de corte abrasivo aglomerados y tableros de circuitos impresos."],
-                     fondo_resaltado=False)
+                      "Usos reales: Mangos para ollas y sartenes, disyuntores eléctricos, discos de corte abrasivo aglomerados y tableros de circuitos impresos."])
 
     crear_caja_texto(s4, Inches(0.8), Inches(4.2), w_card, h_card,
                      "9. Poliuretanos Reticulados (PU Termofijo)",
@@ -387,122 +380,207 @@ def crear_presentacion_minimalista(output_filepath):
                       "Formulación ajustable: desde espumas microcelulares hasta sólidos rígidos.",
                       "Espumas rígidas: Celda cerrada con conductividad térmica ultra baja (k ≈ 0.022 W/m·K).",
                       "Elastómeros de PU: Resistencia superior a la abrasión y absorción de impacto.",
-                      "Usos reales: Aislamiento térmico de refrigeradores domésticos, calzado de seguridad, piezas de amortiguación en suspensión automotriz."],
-                     fondo_resaltado=False)
+                      "Usos reales: Aislamiento térmico de refrigeradores domésticos, calzado de seguridad, piezas de amortiguación en suspensión automotriz."])
 
     crear_caja_texto(s4, Inches(6.833), Inches(4.2), w_card, h_card,
                      "10. Resinas de Poliéster Insaturado (UPR)",
                      ["Oligómero lineal con dobles enlaces reactivos disuelto en monómero de estireno.",
                       "El estireno actúa como agente de entrecruzamiento radicalario a temperatura ambiente.",
                       "Excelente balance costo-desempeño en conformado de piezas grandes.",
-                      "Usos reales: Matriz polimérica en PRFV (Plástico Reforzado con Fibra de Vidrio) para cascos de embarcaciones, tanques cisterna y paneles de carrocería."],
-                     fondo_resaltado=False)
+                      "Usos reales: Matriz polimérica en PRFV (Plástico Reforzado con Fibra de Vidrio) para cascos de embarcaciones, tanques cisterna y paneles de carrocería."])
 
     agregar_pie_pagina(s4, "Askeland Sec. 16-9 y 16-10 (Tablas 16-10 y 16-11, p. 592-595); Callister Sec. 4.7 y 14.13; Shackelford Sec. 13.8.")
 
     # =========================================================================
-    # DIAPOSITIVA 05: LAS 4 ESTRUCTURAS MACROMOLECULARES FUNDAMENTALES
+    # DIAPOSITIVA 05 (NUEVA): CLASIFICACIÓN POR SÍNTESIS QUÍMICA
     # =========================================================================
     s5 = prs.slides.add_slide(blank_layout)
     aplicar_fondo_blanco(s5)
-    agregar_encabezado(s5, 5, "Arquitectura Macromolecular: Las 4 Formas Estructurales",
-                       "La disposición geométrica de las cadenas define el comportamiento mecánico, térmico y de solubilidad")
+    agregar_encabezado(s5, 5, "Clasificación por Síntesis Química: Adición vs. Condensación",
+                       "Diferenciación mecanística según el modo de crecimiento de la cadena macromolecular y la formación de subproductos", TOTAL_SLIDES)
+
+    w_col = Inches(5.7)
+    h_col = Inches(5.0)
+
+    crear_caja_texto(s5, Inches(0.8), Inches(1.6), w_col, h_col,
+                     "1. Polimerización por Adición (Crecimiento en Cadena)",
+                     ["Monómeros Empleados:",
+                      "• Moléculas con enlaces insaturados reactivos (dobles enlaces C=C como en alquenos vinílicos).",
+                      "",
+                      "Mecanismo de Reacción:",
+                      "• Requiere un iniciador que genera un centro activo (radical libre, catión o anión).",
+                      "• El centro activo se transfiere sucesivamente al extremo terminal de la cadena en crecimiento.",
+                      "",
+                      "Subproductos Generados:",
+                      "• CERO subproductos. La masa molecular de la macromolécula es un múltiplo entero exacto de la masa del monómero precursor.",
+                      "",
+                      "Cinética de Formación:",
+                      "• Las cadenas alcanzan peso molecular elevado (>100,000 g/mol) en milisegundos (10⁻³ s). En el reactor solo conviven monómeros intactos y cadenas largas finalizadas.",
+                      "",
+                      "Ejemplos en los 10 Polímeros:",
+                      "• Polietileno (HDPE y LDPE), Polipropileno (PP), Policloruro de Vinilo (PVC) y Poliestireno (PS)."])
+
+    crear_caja_texto(s5, Inches(6.833), Inches(1.6), w_col, h_col,
+                     "2. Polimerización por Condensación (Crecimiento por Pasos)",
+                     ["Monómeros Empleados:",
+                      "• Moléculas difuncionales o polifuncionales portadoras de grupos terminales complementarios (-COOH, -OH, -NH2).",
+                      "",
+                      "Mecanismo de Reacción:",
+                      "• Reacciones químicas orgánicas clásicas paso a paso (esterificación, amidación) entre cualquier pareja de monómeros u oligómeros.",
+                      "",
+                      "Subproductos Generados:",
+                      "• Invariablemente se libera una molécula pequeña volátil como subproducto (H2O, HCl, alcoholes alifáticos).",
+                      "",
+                      "Cinética de Formación (Ecuación de Carothers):",
+                      "• El peso molecular medio crece lentamente a lo largo de toda la reacción. Para alcanzar pesos estructurales útiles (DP ≥ 100), se requiere una conversión química p ≥ 0.99 (99%), exigiendo alto vacío continuo para evaporar el agua condensada.",
+                      "",
+                      "Ejemplos en los 10 Polímeros:",
+                      "• PET (poliéster), Nylon 6,6 (poliamida), Fenol-Formaldehído (Baquelita) y Poliéster Insaturado (UPR)."])
+
+    agregar_pie_pagina(s5, "Callister Sec. 14.11 (p. 603-606); Askeland Sec. 16-2 y 16-3 (p. 586-590); Shackelford Sec. 13.2 (p. 468-471).")
+
+    # =========================================================================
+    # DIAPOSITIVA 06 (NUEVA): MECANISMO RADICALARIO Y PREGUNTA DEL PROFESOR
+    # =========================================================================
+    s6 = prs.slides.add_slide(blank_layout)
+    aplicar_fondo_blanco(s6)
+    agregar_encabezado(s6, 6, "Mecanismo Radicalario: Propagación vs. Unión de Radicales",
+                       "Explicación cinética y probabilística de por qué ocurre la polimerización en cadena y cuándo ocurre la terminación", TOTAL_SLIDES)
+
+    crear_caja_texto(s6, Inches(0.8), Inches(1.6), w_col, h_col,
+                     "1. Ley de Acción de Masas y Probabilidad de Choque",
+                     ["Pregunta del Profesor:",
+                      "¿Por qué el radical libre propaga atacando monómeros en lugar de simplemente unirse a otro radical libre del iniciador?",
+                      "",
+                      "Diferencia Colosal de Concentraciones:",
+                      "• Concentración de Monómero neutro: [M] ≈ 1 a 10 mol/L (fase concentrada masiva).",
+                      "• Concentración de Radicales libres en estado estacionario: [R•] ≈ 10⁻⁷ a 10⁻⁹ mol/L (ultradiluida).",
+                      "",
+                      "Relación de Colisión Estadística:",
+                      "• ¡Hay entre 10,000,000 y 100,000,000 de monómeros neutros por cada radical libre presente en el reactor!",
+                      "• La probabilidad de que un radical choque contra un monómero es órdenes de magnitud superior a la probabilidad de encontrarse con otro radical libre.",
+                      "",
+                      "Cinética de Velocidades:",
+                      "• Velocidad de propagación: Rp = kp · [M] · [R•] (frecuencia de colisión masiva).",
+                      "• Velocidad de terminación entre 2 radicales: Rt = 2kt · [R•]² (al estar al cuadrado en 10⁻⁸, la velocidad es infinitesimalmente pequeña)."])
+
+    crear_caja_texto(s6, Inches(6.833), Inches(1.6), w_col, h_col,
+                     "2. Conservación del Centro Activo y Terminación",
+                     ["La Naturaleza en Cadena de la Propagación:",
+                      "• Cuando el radical libre ataca el enlace pi del monómero vinílico, se forma un nuevo enlace covalente sigma C-C.",
+                      "• ¡El electrón desapareado NO se destruye!: Se transfiere intacto al carbono terminal de la nueva unidad:",
+                      "    R• + CH2=CHX  ⟶  R-CH2-CHX•",
+                      "• El centro activo se regenera sucesivamente, permitiendo que una sola cadena crezca más de 1,000 unidades en apenas 10⁻³ segundos.",
+                      "",
+                      "¿Ocurre la unión de 2 radicales? ¡SÍ, y es la TERMINACIÓN!:",
+                      "• Cuando eventualmente dos cadenas radicalarias en crecimiento colisionan, ocurre la terminación por dos vías competitivas:",
+                      "  a) Combinación o Acoplamiento: Ambos electrones desapareados se unen formando un enlace covalente simple (Mn• + Mm• ⟶ Mn+m).",
+                      "  b) Desproporción: Un radical abstrae un hidrógeno del otro radical, generando una cadena saturada y otra con doble enlace terminal.",
+                      "• Conclusión: La unión entre radicales sí ocurre, pero únicamente como el evento final de terminación bimolecular que extingue el crecimiento."])
+
+    agregar_pie_pagina(s6, "Callister Sec. 14.11 (Ecs. 14.1 y 14.2, p. 604); Askeland Sec. 16-2 (Figuras 16-4 y 16-5, p. 587); Flory (Principles of Polymer Chem.).")
+
+    # =========================================================================
+    # DIAPOSITIVA 07: LAS 4 ESTRUCTURAS MACROMOLECULARES FUNDAMENTALES
+    # =========================================================================
+    s7 = prs.slides.add_slide(blank_layout)
+    aplicar_fondo_blanco(s7)
+    agregar_encabezado(s7, 7, "Arquitectura Macromolecular: Las 4 Formas Estructurales",
+                       "La disposición geométrica de las cadenas define el comportamiento mecánico, térmico y de solubilidad", TOTAL_SLIDES)
 
     w_4 = Inches(2.78)
     h_4 = Inches(5.0)
 
-    crear_caja_texto(s5, Inches(0.8), Inches(1.6), w_4, h_4,
+    crear_caja_texto(s7, Inches(0.8), Inches(1.6), w_4, h_4,
                      "1. Estructura Lineal",
                      ["Descripción:",
-                      "Cadenas largas y continuas unidas únicamente por enlaces sencillos de extremo a extremo (como hebras de espagueti).",
+                      "Cadenas largas continuas unidas de extremo a extremo sin ramificaciones secundarias.",
                       "",
                       "Unión Intercadena:",
-                      "Fuerzas secundarias débiles (Van der Waals o puentes de hidrógeno).",
+                      "Fuerzas secundarias débiles (Van der Waals o puentes de H).",
                       "",
                       "Rasgos Clave:",
-                      "• Gran facilidad de empaquetamiento molecular.",
-                      "• Alta propensión a formar regiones cristalinas densas.",
+                      "• Empaquetamiento molecular fácil y denso.",
+                      "• Gran cristalinidad potencial.",
                       "• Funden reversiblemente y se disuelven en solventes afines.",
                       "",
                       "Ejemplos:",
                       "HDPE, PVC, PET, Nylon 6,6."])
 
-    crear_caja_texto(s5, Inches(3.78), Inches(1.6), w_4, h_4,
+    crear_caja_texto(s7, Inches(3.78), Inches(1.6), w_4, h_4,
                      "2. Estructura Ramificada",
                      ["Descripción:",
-                      "Cadenas principales de las cuales nacen ramificaciones laterales (cortas o largas) durante la síntesis.",
+                      "Cadenas principales de las que nacen ramificaciones laterales (cortas o largas) en la síntesis.",
                       "",
                       "Unión Intercadena:",
                       "Fuerzas de Van der Waals entre cadenas separadas por ramas.",
                       "",
                       "Rasgos Clave:",
-                      "• Las ramas actúan como impedimento estérico espacial.",
-                      "• Dificultan el empaquetamiento regular de las cadenas.",
-                      "• Menor densidad y menor punto de fusión que el lineal.",
+                      "• Las ramas estorban el empaquetamiento compacto regular.",
+                      "• Menor densidad y menor punto de fusión.",
                       "• Mayor flexibilidad y ductilidad.",
                       "",
                       "Ejemplos:",
                       "LDPE (ramificaciones largas y cortas), LLDPE."])
 
-    crear_caja_texto(s5, Inches(6.78), Inches(1.6), w_4, h_4,
+    crear_caja_texto(s7, Inches(6.78), Inches(1.6), w_4, h_4,
                      "3. Estructura Entrecruzada",
                      ["Descripción:",
-                      "Cadenas lineales adyacentes unidas transversalmente en puntos específicos mediante enlaces covalentes.",
+                      "Cadenas lineales adyacentes unidas transversalmente por enlaces covalentes periódicos.",
                       "",
                       "Unión Intercadena:",
-                      "Enlaces químicos primarios transversales (ej. puentes de azufre -S-S-).",
+                      "Enlaces químicos primarios transversales (puentes de azufre -S-S-).",
                       "",
                       "Rasgos Clave:",
-                      "• Las cadenas no pueden deslizar libremente una sobre otra.",
-                      "• Deformación elástica reversible masiva (>200% a 800%).",
-                      "• No funde; mantiene memoria de forma elástica.",
+                      "• Las cadenas no pueden deslizarse libremente.",
+                      "• Deformación elástica masiva reversible (>200% a 800%).",
+                      "• No funde; memoria de forma elástica.",
                       "",
                       "Ejemplos:",
-                      "Caucho natural vulcanizado, elastómeros de polibutadieno."])
+                      "Caucho natural vulcanizado, elastómeros de butadieno."])
 
-    crear_caja_texto(s5, Inches(9.78), Inches(1.6), w_4, h_4,
+    crear_caja_texto(s7, Inches(9.78), Inches(1.6), w_4, h_4,
                      "4. Estructura de Red 3D",
                      ["Descripción:",
                       "Monómeros trifuncionales o polifuncionales que crecen formando una malla tridimensional continua.",
                       "",
                       "Unión Intercadena:",
-                      "Toda la pieza macroscópica conforma una única macromolécula gigante.",
+                      "Toda la pieza es una única macromolécula unida covalentemente.",
                       "",
                       "Rasgos Clave:",
                       "• Infusibles: se termodegradan sin pasar por estado líquido.",
-                      "• Insolubles: sólo experimentan hinchamiento elástico.",
-                      "• Máxima rigidez, dureza y estabilidad térmica dimensional.",
+                      "• Insolubles: solo presentan hinchamiento.",
+                      "• Máxima rigidez, dureza y estabilidad dimensional.",
                       "",
                       "Ejemplos:",
-                      "Resinas epoxi, Baquelita, Poliuretanos rígidos, UPR curado."])
+                      "Resinas epoxi, Baquelita, Poliuretano rígido, UPR."])
 
-    agregar_pie_pagina(s5, "Callister Sec. 4.7 (Figura 4.7, p. 111-112); Askeland Sec. 16-1 (Figura 16-1, p. 586); Shackelford Sec. 13.1 y 13.8.")
+    agregar_pie_pagina(s7, "Callister Sec. 4.7 (Figura 4.7, p. 111-112); Askeland Sec. 16-1 (Figura 16-1, p. 586); Shackelford Sec. 13.1 y 13.8.")
 
     # =========================================================================
-    # DIAPOSITIVA 06: CLASIFICACIÓN DE LOS 10 POLÍMEROS POR ARQUITECTURA
+    # DIAPOSITIVA 08: CLASIFICACIÓN DE LOS 10 POLÍMEROS POR ARQUITECTURA
     # =========================================================================
-    s6 = prs.slides.add_slide(blank_layout)
-    aplicar_fondo_blanco(s6)
-    agregar_encabezado(s6, 6, "Clasificación de los 10 Polímeros Según su Arquitectura Molecular",
-                       "Asignación inequívoca de cada polímero industrial a su modelo estructural correspondiente")
+    s8 = prs.slides.add_slide(blank_layout)
+    aplicar_fondo_blanco(s8)
+    agregar_encabezado(s8, 8, "Clasificación de los 10 Polímeros Según su Arquitectura Molecular",
+                       "Asignación inequívoca de cada polímero industrial a su modelo estructural correspondiente", TOTAL_SLIDES)
 
-    # Tabla directa de 10 polímeros vs arquitectura
     rows, cols = 11, 4
-    tbl_s6 = s6.shapes.add_table(rows, cols, Inches(0.8), Inches(1.6), Inches(11.733), Inches(5.0))
-    t6 = tbl_s6.table
-    t6.columns[0].width = Inches(2.8)
-    t6.columns[1].width = Inches(2.2)
-    t6.columns[2].width = Inches(2.0)
-    t6.columns[3].width = Inches(4.733)
+    tbl_s8 = s8.shapes.add_table(rows, cols, Inches(0.8), Inches(1.6), Inches(11.733), Inches(5.0))
+    t8 = tbl_s8.table
+    t8.columns[0].width = Inches(2.8)
+    t8.columns[1].width = Inches(2.2)
+    t8.columns[2].width = Inches(2.0)
+    t8.columns[3].width = Inches(4.733)
 
-    hdrs6 = ["Polímero Industrial", "Arquitectura Molecular", "Comportamiento Térmico", "Razón Estructural / Mecanismo de Unión"]
-    for j, h in enumerate(hdrs6):
-        c = t6.cell(0, j)
+    hdrs8 = ["Polímero Industrial", "Arquitectura Molecular", "Comportamiento Térmico", "Razón Estructural / Mecanismo de Unión"]
+    for j, h in enumerate(hdrs8):
+        c = t8.cell(0, j)
         c.fill.solid()
         c.fill.fore_color.rgb = COLOR_TBL_HEADER
         formatear_celda_tabla(c, h, es_header=True, align=PP_ALIGN.CENTER if j in [1, 2] else PP_ALIGN.LEFT)
 
-    data_s6 = [
+    data_s8 = [
         ("HDPE (Polietileno Alta Densidad)", "Lineal", "Termoplástico", "Cadenas rectas continuas; fácil cristalización por empaquetamiento."),
         ("PET (Tereftalato de Polietileno)", "Lineal", "Termoplástico", "Copolímero lineal por condensación; anillos fenilo aportan rigidez a la cadena."),
         ("PVC (Policloruro de Vinilo)", "Lineal", "Termoplástico", "Cadena vinílica lineal; interacción dipolar moderada por enlaces C-Cl."),
@@ -515,30 +593,30 @@ def crear_presentacion_minimalista(output_filepath):
         ("Poliuretano Rígido / Poliéster Insat.", "De Red Tridimensional", "Termofijo", "Entrecruzamiento continuo con monómeros multifuncionales en bloque."),
     ]
 
-    for i, fila in enumerate(data_s6):
+    for i, fila in enumerate(data_s8):
         bg_col = COLOR_TBL_ROW_ALT if (i % 2 == 1) else COLOR_BG
         for j, val in enumerate(fila):
-            c = t6.cell(i + 1, j)
+            c = t8.cell(i + 1, j)
             c.fill.solid()
             c.fill.fore_color.rgb = bg_col
             al = PP_ALIGN.CENTER if j in [1, 2] else PP_ALIGN.LEFT
             b = True if j in [0, 1] else False
             formatear_celda_tabla(c, val, bold=b, align=al, font_size=Pt(9.2))
 
-    agregar_pie_pagina(s6, "Callister Sec. 4.7; Askeland Sec. 16-1 y 16-5; Shackelford Sec. 13.1 y 13.8.")
+    agregar_pie_pagina(s8, "Callister Sec. 4.7; Askeland Sec. 16-1 y 16-5; Shackelford Sec. 13.1 y 13.8.")
 
     # =========================================================================
-    # DIAPOSITIVA 07: RELACIÓN ESTRUCTURA MOLECULAR - PROPIEDADES MECÁNICAS
+    # DIAPOSITIVA 09: RELACIÓN ESTRUCTURA MOLECULAR - PROPIEDADES MECÁNICAS
     # =========================================================================
-    s7 = prs.slides.add_slide(blank_layout)
-    aplicar_fondo_blanco(s7)
-    agregar_encabezado(s7, 7, "Relación Estructura Molecular — Propiedades Mecánicas",
-                       "Cómo la arquitectura de las cadenas gobierna el módulo, la resistencia, la deformación y la fluencia")
+    s9 = prs.slides.add_slide(blank_layout)
+    aplicar_fondo_blanco(s9)
+    agregar_encabezado(s9, 9, "Relación Estructura Molecular — Propiedades Mecánicas",
+                       "Cómo la arquitectura de las cadenas gobierna el módulo, la resistencia, la deformación y la fluencia", TOTAL_SLIDES)
 
-    w_box7 = Inches(5.7)
-    h_box7 = Inches(2.45)
+    w_box9 = Inches(5.7)
+    h_box9 = Inches(2.45)
 
-    crear_caja_texto(s7, Inches(0.8), Inches(1.6), w_box7, h_box7,
+    crear_caja_texto(s9, Inches(0.8), Inches(1.6), w_box9, h_box9,
                      "Lineal vs. Ramificado: Empaquetamiento y Cristalinidad",
                      ["Cadenas Lineales (ej. HDPE vs. LDPE):",
                       "• Las cadenas lineales se empaquetan sin estorbos, alcanzando hasta 70-80% de cristalinidad.",
@@ -547,7 +625,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "• Los ramales separan las cadenas, incrementando el volumen libre y bajando la cristalinidad al 40-50%.",
                       "• Resultado mecánico: Menor rigidez (E ≈ 0.2 GPa), menor límite elástico, pero elongación al quiebre muy superior (>500%)."])
 
-    crear_caja_texto(s7, Inches(6.833), Inches(1.6), w_box7, h_box7,
+    crear_caja_texto(s9, Inches(6.833), Inches(1.6), w_box9, h_box9,
                      "Fuerzas Intercadena vs. Deslizamiento Mecánico",
                      ["En polímeros Lineales y Ramificados:",
                       "• Las moléculas se mantienen unidas sólo por enlaces secundarios débiles (Van der Waals o puentes de H).",
@@ -555,7 +633,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "• Al aplicar calor superando Tg y Tm, la agitación térmica supera a las fuerzas secundarias: el material funde y fluye.",
                       "• Justifica por qué se procesan fácilmente por extrusión e inyección."])
 
-    crear_caja_texto(s7, Inches(0.8), Inches(4.2), w_box7, h_box7,
+    crear_caja_texto(s9, Inches(0.8), Inches(4.2), w_box9, h_box9,
                      "Redes Tridimensionales: Rigidez Extrema y Fragilidad",
                      ["En polímeros de Red (Epoxis, Baquelita, Poliéster Insaturado):",
                       "• Los enlaces covalentes C-C y C-N unen toda la estructura en una red rígida continua.",
@@ -563,7 +641,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "• Comportamiento mecánico: Módulo elástico muy elevado (E > 3 - 5 GPa), gran dureza superficial y nula fluencia bajo carga moderada.",
                       "• Consecuencia: No admiten deformación plástica significativa; exhiben fractura frágil sin cuello previo."])
 
-    crear_caja_texto(s7, Inches(6.833), Inches(4.2), w_box7, h_box7,
+    crear_caja_texto(s9, Inches(6.833), Inches(4.2), w_box9, h_box9,
                      "Estructuras Entrecruzadas: Elasticidad Reversible",
                      ["En Elastómeros Entrecruzados (Cauchos con vulcanización):",
                       "• Pocos enlaces cruzados distribuidos uniformemente entre cadenas ovilladas.",
@@ -571,20 +649,20 @@ def crear_presentacion_minimalista(output_filepath):
                       "• Al liberar el esfuerzo, la entropía conformacional y los puentes covalentes regresan las cadenas a su estado original.",
                       "• Los enlaces cruzados evitan el flujo viscoso permanente."])
 
-    agregar_pie_pagina(s7, "Callister Cap. 4 (p. 116) y Cap. 8 (p. 250); Askeland Sec. 16-1 y 16-6 (Figuras 16-11 y 16-23); Shackelford Sec. 13.7.")
+    agregar_pie_pagina(s9, "Callister Cap. 4 (p. 116) y Cap. 8 (p. 250); Askeland Sec. 16-1 y 16-6 (Figuras 16-11 y 16-23); Shackelford Sec. 13.7.")
 
     # =========================================================================
-    # DIAPOSITIVA 08: PROCESOS INDUSTRIALES I - EXTRUSIÓN E INYECCIÓN
+    # DIAPOSITIVA 10: PROCESOS INDUSTRIALES I - EXTRUSIÓN E INYECCIÓN
     # =========================================================================
-    s8 = prs.slides.add_slide(blank_layout)
-    aplicar_fondo_blanco(s8)
-    agregar_encabezado(s8, 8, "Procesos Industriales de Transformación (I)",
-                       "Las dos tecnologías continuas y cíclicas más utilizadas a nivel global para termoplásticos")
+    s10 = prs.slides.add_slide(blank_layout)
+    aplicar_fondo_blanco(s10)
+    agregar_encabezado(s10, 10, "Procesos Industriales de Transformación (I)",
+                       "Las dos tecnologías continuas y cíclicas más utilizadas a nivel global para termoplásticos", TOTAL_SLIDES)
 
     w_proc = Inches(5.7)
     h_proc = Inches(5.0)
 
-    crear_caja_texto(s8, Inches(0.8), Inches(1.6), w_proc, h_proc,
+    crear_caja_texto(s10, Inches(0.8), Inches(1.6), w_proc, h_proc,
                      "1. Proceso de Extrusión (Proceso Continuo)",
                      ["Principio de Operación:",
                       "• Los pellets sólidos se alimentan por una tolva a un cilindro calefaccionado.",
@@ -601,7 +679,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "Ventaja Técnica:",
                       "Máxima eficiencia económica para la producción en serie de longitudes continuas."])
 
-    crear_caja_texto(s8, Inches(6.833), Inches(1.6), w_proc, h_proc,
+    crear_caja_texto(s10, Inches(6.833), Inches(1.6), w_proc, h_proc,
                      "2. Moldeo por Inyección (Proceso Cíclico de Precisión)",
                      ["Principio de Operación:",
                       "• Análogo al die casting en metales. Es el proceso reina para piezas discretas complejas.",
@@ -618,20 +696,20 @@ def crear_presentacion_minimalista(output_filepath):
                       "Ventaja Técnica:",
                       "Tolerancias dimensionales milimétricas, excelente acabado superficial y ciclos rápidos (segundos)."])
 
-    agregar_pie_pagina(s8, "Callister Sec. 14.13 (Figuras 14.30 y 14.31, p. 608-610); Askeland Sec. 16-11 (Figuras 16-25a/c y 16-26, p. 596-597).")
+    agregar_pie_pagina(s10, "Callister Sec. 14.13 (Figuras 14.30 y 14.31, p. 608-610); Askeland Sec. 16-11 (Figuras 16-25a/c y 16-26, p. 596-597).")
 
     # =========================================================================
-    # DIAPOSITIVA 09: PROCESOS INDUSTRIALES II - SOPLADO, TERMOFORMADO, ROTOMOLDEO
+    # DIAPOSITIVA 11: PROCESOS INDUSTRIALES II - SOPLADO, TERMOFORMADO, ROTOMOLDEO
     # =========================================================================
-    s9 = prs.slides.add_slide(blank_layout)
-    aplicar_fondo_blanco(s9)
-    agregar_encabezado(s9, 9, "Procesos Industriales de Transformación (II)",
-                       "Técnicas avanzadas para recipientes huecos, piezas laminares y cuerpos volumétricos sin esfuerzos")
+    s11 = prs.slides.add_slide(blank_layout)
+    aplicar_fondo_blanco(s11)
+    agregar_encabezado(s11, 11, "Procesos Industriales de Transformación (II)",
+                       "Técnicas avanzadas para recipientes huecos, piezas laminares y cuerpos volumétricos sin esfuerzos", TOTAL_SLIDES)
 
     w_3 = Inches(3.75)
     h_3 = Inches(5.0)
 
-    crear_caja_texto(s9, Inches(0.8), Inches(1.6), w_3, h_3,
+    crear_caja_texto(s11, Inches(0.8), Inches(1.6), w_3, h_3,
                      "3. Moldeo por Soplado (Blow Molding)",
                      ["Mecanismo:",
                       "1. Se extruye o inyecta un tubo caliente hueco denominado preforma o parisón.",
@@ -646,7 +724,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "Aplicaciones:",
                       "Botellas de refresco, bidones químicos, tanques de combustible de autos."])
 
-    crear_caja_texto(s9, Inches(4.79), Inches(1.6), w_3, h_3,
+    crear_caja_texto(s11, Inches(4.79), Inches(1.6), w_3, h_3,
                      "4. Termoformado (Thermoforming)",
                      ["Mecanismo:",
                       "1. Se parte de una lámina o film termoplástico previamente extruido.",
@@ -660,7 +738,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "Aplicaciones:",
                       "Vasos y platos desechables (PS, PP), charolas para carne, blisters farmacéuticos, paneles interiores de refrigeradores."])
 
-    crear_caja_texto(s9, Inches(8.78), Inches(1.6), w_3, h_3,
+    crear_caja_texto(s11, Inches(8.78), Inches(1.6), w_3, h_3,
                      "5. Rotomoldeo (Moldeo Rotacional)",
                      ["Mecanismo:",
                       "1. Se introduce una carga de polímero en polvo fino en un molde hueco.",
@@ -674,17 +752,17 @@ def crear_presentacion_minimalista(output_filepath):
                       "Aplicaciones:",
                       "Tinacos de agua (Rotoplas en HDPE), kayaks, juegos infantiles, grandes contenedores industriales."])
 
-    agregar_pie_pagina(s9, "Askeland Sec. 16-11 (Figuras 16-25b/d y 16-27, p. 596-598); Callister Sec. 14.13 (p. 610).")
+    agregar_pie_pagina(s11, "Askeland Sec. 16-11 (Figuras 16-25b/d y 16-27, p. 596-598); Callister Sec. 14.13 (p. 610).")
 
     # =========================================================================
-    # DIAPOSITIVA 10: PROCESOS INDUSTRIALES III - TERMOFIJOS (COMPRESIÓN Y TRANSFERENCIA)
+    # DIAPOSITIVA 12: PROCESOS INDUSTRIALES III - TERMOFIJOS (COMPRESIÓN Y TRANSFERENCIA)
     # =========================================================================
-    s10 = prs.slides.add_slide(blank_layout)
-    aplicar_fondo_blanco(s10)
-    agregar_encabezado(s10, 10, "Procesos Industriales de Transformación (III): Termofijos",
-                       "Procesos donde la conformación geométrica y la reacción química de reticulación (curado) ocurren simultáneamente")
+    s12 = prs.slides.add_slide(blank_layout)
+    aplicar_fondo_blanco(s12)
+    agregar_encabezado(s12, 12, "Procesos Industriales de Transformación (III): Termofijos",
+                       "Procesos donde la conformación geométrica y la reacción química de reticulación (curado) ocurren simultáneamente", TOTAL_SLIDES)
 
-    crear_caja_texto(s10, Inches(0.8), Inches(1.6), w_proc, h_proc,
+    crear_caja_texto(s12, Inches(0.8), Inches(1.6), w_proc, h_proc,
                      "6. Moldeo por Compresión (Estándar en Termofijos)",
                      ["Mecanismo de Fabricación:",
                       "• Una cantidad pesada de resina en polvo, gránulos o preforma compactada se coloca en la cavidad abierta de un molde inferior calentado.",
@@ -699,7 +777,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "Productos Fabricados:",
                       "Mangos aislantes para sartenes y planchas (Baquelita), carcasas de enchufes y disyuntores, discos abrasivos aglomerados."])
 
-    crear_caja_texto(s10, Inches(6.833), Inches(1.6), w_proc, h_proc,
+    crear_caja_texto(s12, Inches(6.833), Inches(1.6), w_proc, h_proc,
                      "7. Moldeo por Transferencia (Evolución de la Compresión)",
                      ["Mecanismo de Fabricación:",
                       "• Es una variante refinada del moldeo por compresión diseñada para piezas complejas o con insertos metálicos delicados.",
@@ -715,21 +793,20 @@ def crear_presentacion_minimalista(output_filepath):
                       "Productos Fabricados:",
                       "Encapsulado de circuitos integrados y transistores, conectores multipin aeronáuticos, componentes de conmutación eléctrica."])
 
-    agregar_pie_pagina(s10, "Callister Sec. 14.13 (Figura 14.29, p. 608-609); Askeland Sec. 16-11 (Figura 16-28, p. 598-599); Shackelford Sec. 13.8.")
+    agregar_pie_pagina(s12, "Callister Sec. 14.13 (Figura 14.29, p. 608-609); Askeland Sec. 16-11 (Figura 16-28, p. 598-599); Shackelford Sec. 13.8.")
 
     # =========================================================================
-    # DIAPOSITIVA 11: MÉTODOS DE RECICLAJE I - LAS 7 TECNOLOGÍAS INDUSTRIALES
+    # DIAPOSITIVA 13: MÉTODOS DE RECICLAJE I - LAS 7 TECNOLOGÍAS INDUSTRIALES
     # =========================================================================
-    s11 = prs.slides.add_slide(blank_layout)
-    aplicar_fondo_blanco(s11)
-    agregar_encabezado(s11, 11, "Clasificación del Reciclaje (I): Las 7 Rutas Tecnológicas",
-                       "Jerarquía industrial de valorización y circularidad de polímeros (Normas ISO 15270 / ASTM D5033)")
+    s13 = prs.slides.add_slide(blank_layout)
+    aplicar_fondo_blanco(s13)
+    agregar_encabezado(s13, 13, "Clasificación del Reciclaje (I): Las 7 Rutas Tecnológicas",
+                       "Jerarquía industrial de valorización y circularidad de polímeros (Normas ISO 15270 / ASTM D5033)", TOTAL_SLIDES)
 
-    # 7 métodos en lista estructurada
-    w_col11 = Inches(5.7)
-    h_col11 = Inches(5.0)
+    w_col13 = Inches(5.7)
+    h_col13 = Inches(5.0)
 
-    crear_caja_texto(s11, Inches(0.8), Inches(1.6), w_col11, h_col11,
+    crear_caja_texto(s13, Inches(0.8), Inches(1.6), w_col13, h_col13,
                      "Rutas Mecánicas y de Circuito Cerrado",
                      ["1. Reciclaje Primario (Re-extrusión / Circuito Cerrado):",
                       "• Reprocesamiento mecánico inmediato de recortes, rebabas y mermas limpias dentro de la misma planta industrial.",
@@ -744,7 +821,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "• Separación física selectiva mediante solventes (ej. proceso CreaSolv).",
                       "• Disuelve selectivamente el polímero objetivo de empaques multicapa separándolo de aditivos, cargas y aluminio sin romper los enlaces covalentes."])
 
-    crear_caja_texto(s11, Inches(6.833), Inches(1.6), w_col11, h_col11,
+    crear_caja_texto(s13, Inches(6.833), Inches(1.6), w_col13, h_col13,
                      "Rutas Químicas, Térmicas y Biológicas",
                      ["4. Reciclaje Terciario Químico (Solvólisis / Despolimerización):",
                       "• Ruptura de enlaces químicos para regresar a monómeros u oligómeros originales con calidad de resina virgen (Food-Grade).",
@@ -761,33 +838,32 @@ def crear_presentacion_minimalista(output_filepath):
                       "7. Reciclaje Orgánico / Biológico (Compostaje Industrial):",
                       "• Biodegradación por microorganismos para biopolímeros certificados (PLA, PHA, almidón) transformándose en agua, CO2 y abono orgánico."])
 
-    agregar_pie_pagina(s11, "Normas ISO 15270 (Reciclado y Recuperación de Plásticos); ASTM D5033; Hopewell et al., Phil. Trans. R. Soc. B (2009).")
+    agregar_pie_pagina(s13, "Normas ISO 15270 (Reciclado y Recuperación de Plásticos); ASTM D5033; Hopewell et al., Phil. Trans. R. Soc. B (2009).")
 
     # =========================================================================
-    # DIAPOSITIVA 12: MÉTODOS DE RECICLAJE II - CÓDIGOS SPI Y RETO DE TERMOFIJOS
+    # DIAPOSITIVA 14: MÉTODOS DE RECICLAJE II - CÓDIGOS SPI Y RETO DE TERMOFIJOS
     # =========================================================================
-    s12 = prs.slides.add_slide(blank_layout)
-    aplicar_fondo_blanco(s12)
-    agregar_encabezado(s12, 12, "Clasificación del Reciclaje (II): Códigos SPI y el Reto de Termofijos",
-                       "Sistema de codificación numérica universal de resinas (ASTM D7611) y estrategias de fin de ciclo para polímeros de red")
+    s14 = prs.slides.add_slide(blank_layout)
+    aplicar_fondo_blanco(s14)
+    agregar_encabezado(s14, 14, "Clasificación del Reciclaje (II): Códigos SPI y el Reto de Termofijos",
+                       "Sistema de codificación numérica universal de resinas (ASTM D7611) y estrategias de fin de ciclo para polímeros de red", TOTAL_SLIDES)
 
-    # Tabla de los 7 Códigos SPI
     rows, cols = 8, 4
-    tbl_s12 = s12.shapes.add_table(rows, cols, Inches(0.8), Inches(1.6), Inches(7.5), Inches(5.0))
-    t12 = tbl_s12.table
-    t12.columns[0].width = Inches(0.8)
-    t12.columns[1].width = Inches(1.8)
-    t12.columns[2].width = Inches(2.2)
-    t12.columns[3].width = Inches(2.7)
+    tbl_s14 = s14.shapes.add_table(rows, cols, Inches(0.8), Inches(1.6), Inches(7.5), Inches(5.0))
+    t14 = tbl_s14.table
+    t14.columns[0].width = Inches(0.8)
+    t14.columns[1].width = Inches(1.8)
+    t14.columns[2].width = Inches(2.2)
+    t14.columns[3].width = Inches(2.7)
 
-    hdrs12 = ["Código", "Resina", "Reciclabilidad Mecánica", "Destino del Material Reciclado"]
-    for j, h in enumerate(hdrs12):
-        c = t12.cell(0, j)
+    hdrs14 = ["Código", "Resina", "Reciclabilidad Mecánica", "Destino del Material Reciclado"]
+    for j, h in enumerate(hdrs14):
+        c = t14.cell(0, j)
         c.fill.solid()
         c.fill.fore_color.rgb = COLOR_TBL_HEADER
         formatear_celda_tabla(c, h, es_header=True, align=PP_ALIGN.CENTER if j in [0, 2] else PP_ALIGN.LEFT)
 
-    data_s12 = [
+    data_s14 = [
         ("1", "PET", "Muy Alta", "Nuevas botellas (rPET), fibra textil polar, flejes."),
         ("2", "HDPE", "Alta", "Tuberías corrugadas, botes de basura, tarimas plásticas."),
         ("3", "PVC", "Baja / Compleja", "Separación difícil por cloro; conos viales, suelas."),
@@ -797,18 +873,17 @@ def crear_presentacion_minimalista(output_filepath):
         ("7", "OTROS", "Muy Baja (Mezclas)", "Generalmente no reciclable mecánicamente; valorización energética o pirólisis."),
     ]
 
-    for i, fila in enumerate(data_s12):
+    for i, fila in enumerate(data_s14):
         bg_col = COLOR_TBL_ROW_ALT if (i % 2 == 1) else COLOR_BG
         for j, val in enumerate(fila):
-            c = t12.cell(i + 1, j)
+            c = t14.cell(i + 1, j)
             c.fill.solid()
             c.fill.fore_color.rgb = bg_col
             al = PP_ALIGN.CENTER if j in [0, 2] else PP_ALIGN.LEFT
             b = True if j in [0, 1] else False
             formatear_celda_tabla(c, val, bold=b, align=al, font_size=Pt(9))
 
-    # Caja explicativa al lado derecho sobre el reto de los termofijos
-    crear_caja_texto(s12, Inches(8.5), Inches(1.6), Inches(4.033), Inches(5.0),
+    crear_caja_texto(s14, Inches(8.5), Inches(1.6), Inches(4.033), Inches(5.0),
                      "¿Por qué los Termofijos son Difíciles de Reciclar?",
                      ["El Origen Estructural del Problema:",
                       "• Los termoplásticos se reciclan mecánicamente simplemente aplicando calor para fundirlos y remoldearlos.",
@@ -825,20 +900,20 @@ def crear_presentacion_minimalista(output_filepath):
                       "Aprovechamiento de su poder calorífico en incineración industrial."],
                      fondo_resaltado=True)
 
-    agregar_pie_pagina(s12, "ASTM D7611 / SPI Resin Identification System; Callister Sec. 14.13; Askeland Sec. 16-1 y 16-9.")
+    agregar_pie_pagina(s14, "ASTM D7611 / SPI Resin Identification System; Callister Sec. 14.13; Askeland Sec. 16-1 y 16-9.")
 
     # =========================================================================
-    # DIAPOSITIVA 13: RESUMEN Y CRITERIOS DE SELECCIÓN EN INGENIERÍA
+    # DIAPOSITIVA 15: RESUMEN Y CRITERIOS DE SELECCIÓN EN INGENIERÍA
     # =========================================================================
-    s13 = prs.slides.add_slide(blank_layout)
-    aplicar_fondo_blanco(s13)
-    agregar_encabezado(s13, 13, "Resumen y Criterios de Selección en Ingeniería de Materiales",
-                       "Guía sinóptica para defender decisiones de diseño, procesamiento y fin de vida ante el comité evaluador")
+    s15 = prs.slides.add_slide(blank_layout)
+    aplicar_fondo_blanco(s15)
+    agregar_encabezado(s15, 15, "Resumen y Criterios de Selección en Ingeniería de Materiales",
+                       "Guía sinóptica para defender decisiones de diseño, procesamiento y fin de vida ante el comité evaluador", TOTAL_SLIDES)
 
     w_res = Inches(3.75)
     h_res = Inches(5.0)
 
-    crear_caja_texto(s13, Inches(0.8), Inches(1.6), w_res, h_res,
+    crear_caja_texto(s15, Inches(0.8), Inches(1.6), w_res, h_res,
                      "1. Selección Estructural",
                      ["Criterio de Carga y Rigidez:",
                       "• Si la pieza requiere alta rigidez, estabilidad dimensional y resistencia a fluencia a >100 °C: Seleccionar polímeros de Red (Epoxis, Baquelita).",
@@ -847,7 +922,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "Densidad y Empaquetamiento:",
                       "La presencia de ramificaciones (LDPE) o anillos aromáticos voluminosos (PS) reduce la cristalinidad e incrementa la transparencia óptica."])
 
-    crear_caja_texto(s13, Inches(4.79), Inches(1.6), w_res, h_res,
+    crear_caja_texto(s15, Inches(4.79), Inches(1.6), w_res, h_res,
                      "2. Selección del Proceso",
                      ["Geometría vs. Eficiencia:",
                       "• Perfiles continuos o tuberías ➔ Extrusión monohusillo o doble husillo.",
@@ -857,7 +932,7 @@ def crear_presentacion_minimalista(output_filepath):
                       "• Cuerpos huecos masivos sin esfuerzos ➔ Rotomoldeo.",
                       "• Piezas termoestables con insertos ➔ Compresión o Transferencia."])
 
-    crear_caja_texto(s13, Inches(8.78), Inches(1.6), w_res, h_res,
+    crear_caja_texto(s15, Inches(8.78), Inches(1.6), w_res, h_res,
                      "3. Enfoque de Sostenibilidad",
                      ["Estrategia de Reciclabilidad:",
                       "• Priorizar monomateriales termoplásticos de fácil reciclaje mecánico (PET #1, HDPE #2, PP #5).",
@@ -867,11 +942,11 @@ def crear_presentacion_minimalista(output_filepath):
                       "Conclusión:",
                       "La microestructura macromolecular dicta todas las opciones de procesamiento y fin de ciclo."])
 
-    agregar_pie_pagina(s13, "Integración de conceptos de Callister (Caps. 4 y 14), Askeland (Cap. 16), Shackelford (Cap. 13) e ISO 15270.")
+    agregar_pie_pagina(s15, "Integración de conceptos de Callister (Caps. 4 y 14), Askeland (Cap. 16), Shackelford (Cap. 13) e ISO 15270.")
 
     # Guardar presentación
     prs.save(output_filepath)
-    print(f"[OK] Presentación minimalista generada con éxito en: {output_filepath}")
+    print(f"[OK] Presentación minimalista generada con éxito ({TOTAL_SLIDES} diapositivas) en: {output_filepath}")
 
 
 if __name__ == "__main__":
